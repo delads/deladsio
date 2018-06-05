@@ -1,0 +1,76 @@
+<div class="content-heading">
+   <!-- START Language list-->
+   <div class="pull-right">
+      <div class="btn-group">
+         <button type="button" data-toggle="dropdown" class="btn btn-default">English</button>
+         <ul role="menu" class="dropdown-menu dropdown-menu-right animated fadeInUpShort">
+            <li><a href="#" data-set-lang="en">English</a>
+            </li>
+            <li><a href="#" data-set-lang="es">Spanish</a>
+            </li>
+         </ul>
+      </div>
+   </div>
+   <!-- END Language list    -->
+   All Makers
+
+</div>
+
+
+ 
+    <% @makers.each do |maker| %>
+      
+      <div class="well row">
+    
+      <div class="h4" ><%= maker.makername %></div>
+      <div class="h5" ><%= maker.email %></div>
+      
+      <div class="col-sm-1 text-left pull-left">   
+            <!--   <%= link_to "",  maker, class: "glyphicon glyphicon-trash", method: :delete,data: { confirm: "You sure?" } %>  -->
+            <%= link_to 'Destroy', "/makers/#{maker.id}/destroy" %>
+      </div>
+    
+      <br>
+
+
+      <% maker.sensors.each do |sensor| %>
+
+        <div class="col-lg-3 col-md-6">
+              <!-- START panel--> 
+              <div class="panel panel-light">
+                    <div class="panel-heading">
+                    <div class="row">
+                          <a href="/charts/<%= sensor.id %>">
+                          <div class="col-xs-3 <%= @sensor_class[sensor.sensor_type] %>">
+                          </div>
+                          </a>
+                          <div class="col-xs-9 text-right">
+
+                          <div class="text-lg"><%= sensor.property_value %> <%=raw @sensor_measure[sensor.sensor_type] %></div>
+                          <p class="m0"><%= sensor.name %> </p>
+                          </div>
+                    </div>
+                    </div>
+                    
+                    <div class="panel-footer bg-gray-light bt0 clearfix btn-block">
+                          <div class="pull-left">
+                                <a href="/sensors/<%=raw sensor.id %>/edit"> Edit Sensor</a>
+                                </div>
+                          <a href="/charts/<%= sensor.id %>">
+                          <span class="pull-right">
+                                <em class="fa fa-bar-chart"></em>
+                          </span>
+                          </a>
+                    </div>
+                    <!-- END panel-->
+              </div>
+        </div>
+        <% end %>
+
+
+      
+      
+      </div>
+    <% end %>
+
+  

@@ -1,0 +1,44 @@
+<%= render 'shared/nav_top' %>
+<%= render 'shared/nav_side' %>
+
+      <div class="container">
+        <!-- Page Content goes here -->
+        <div class="row">
+
+<% @sensors.each do |sensor| %>
+
+<% 
+  image_location = "";
+
+
+%>
+
+      <div class="col s4">
+            <div class="card horizontal">
+                  <div class="card-image">
+                        <a href="/charts/<%= sensor.id %>">
+                              <img src="<%=raw @sensor_image[sensor.sensor_type] %>">
+                        </a>
+                  </div>
+                  <div class="card-stacked">
+                  <div class="card-content">
+                  <h5><%= sensor.property_value %> <%=raw @sensor_measure[sensor.sensor_type] %></h5>
+                  <br>
+                  <p><%= sensor.name %></p>
+                  </div>
+                  <div class="card-action">
+                  <a href="/sensors/<%=raw sensor.id %>/edit">Edit</a>
+                  <a href="/charts/<%= sensor.id %>">Graph</a>
+                  </div>
+                  </div>
+            </div>
+      </div>
+
+<% end %>
+
+
+<script>
+        $(document).ready(function(){
+    $('.sidenav').sidenav();
+  });
+ </script>

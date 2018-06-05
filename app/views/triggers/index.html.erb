@@ -1,0 +1,114 @@
+<%= render 'shared/nav_top' %>
+<%= render 'shared/nav_side' %>
+
+<div class="container">
+
+<div class="col-md-8 offset-md-2">
+   <!-- START panel-->
+   <div class="panel panel-default">
+      <div class="panel-heading">Create new trigger</div>
+      <div class="panel-body">
+         <form class="form-horizontal">
+            <div class="form-group">
+               <label class="col-lg-2 control-label">Sensor</label>
+               <div class="col-lg-10">
+                  <select name="sensor" class="form-control m-b">
+                     <option>Kitchen temperature</option>
+                     <option>Boy's bedroom air quality</option>
+                     <option>Bathroom humidity</option>
+                     <option>Hot water temperature</option>
+                  </select>
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="col-lg-2 control-label">Condition</label>
+               <div class="col-lg-10">
+                  <select name="condition" class="form-control m-b">
+                     <option>Less than or equal to</option>
+                     <option>Greater than</option>
+                  </select>
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="col-lg-2 control-label">Value</label>
+               <div class="col-lg-10">
+                  <input id="input-value" placeholder="Value" class="form-control" />
+               </div>
+            </div>
+
+            <div class="form-group">
+               <label class="col-lg-2 control-label">Action</label>
+               <div class="col-lg-2 checkbox c-checkbox">
+                  <label>
+                     <input type="checkbox" value="" />
+                     <span class="fa fa-check"></span>
+                     SMS
+                  </label>
+               </div>
+               <div class="col-lg-8">
+                  <input id="sms" placeholder="Phone number" class="form-control" />
+               </div> 
+               <label class="col-lg-2 control-label"></label>
+               <div class="col-lg-2 checkbox c-checkbox">
+                  <label>
+                     <input type="checkbox" value="" />
+                     <span class="fa fa-check"></span>
+                     Email
+                  </label>
+               </div>
+               <div class="col-lg-8">
+                  <input id="email" placeholder="Email" class="form-control" />
+               </div>
+
+               <label class="col-lg-2 control-label"></label>
+               <div class="col-lg-2 checkbox c-checkbox">
+                  <label>
+                     <input type="checkbox" value="" />
+                     <span class="fa fa-check"></span>
+                     Webhook
+                  </label>
+               </div>
+               <div class="col-lg-8">
+                  <input id="webhook-url" placeholder="Webhook url" class="form-control" />
+               </div>
+
+            </div> 
+            
+            <div class="form-group">
+               <div class="col-lg-offset-2 col-lg-10">
+                  <button type="submit" class="btn btn-sm btn-default">Create trigger</button>
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+
+   <div class="col-md-8 offset-md-2">
+   <!-- START panel-->
+   <div class="panel panel-default">
+   <div class="panel-heading">Existing Triggers</div>
+   <div class="panel-body">
+   <span class="fa fa-trash fa-1x"></span>
+        &nbsp; When Boy's room air quality is Less than or equal to 10, send and email to donoleary@gmail.com and SMS to 0868807853
+   </div>
+   </div>
+</div>
+
+
+   <!-- END panel-->
+</div>
+
+</div>
+
+
+
+
+
+<script>
+        $(document).ready(function(){
+    $('.sidenav').sidenav();
+  });
+ </script>
+
+
+

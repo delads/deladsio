@@ -1,0 +1,21 @@
+<h1>All Sensors</h1>
+<hr/>
+
+<div class="container white_pane">
+ 
+
+      
+    
+
+
+    <% @sensors.each do |sensor| %>
+        
+
+          <div class="col-md-3">
+              
+              <div class="thermostat_gallery"><%= sensor.max_temperature  %></div>
+              <div class="thermostat_gallery_name",margin-left=30px><%= link_to sensor.name, sensor_path(sensor) %></div>
+          </div> 
+    
+    <% end %>
+</div>

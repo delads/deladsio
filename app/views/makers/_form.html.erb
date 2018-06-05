@@ -1,0 +1,22 @@
+<div class="container">
+<%= render 'shared/errors', obj: @maker %>
+
+<div class="row container">
+  <div class="well col-md-8 col-md-offset-2">
+    <%= form_for @maker do |f| %>
+      <%= f.label "Maker Name" %>
+      <%= f.text_field :makername %>
+      
+      <%= f.label :email %>
+      <%= f.email_field :email %>
+      
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+      
+
+      
+      <%= f.submit(@maker.new_record? ? 'Register' : 'Update Maker Profile', class: "btn btn-success") %>
+    <% end %>
+  </div>
+</div>
+</div>

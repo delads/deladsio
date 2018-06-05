@@ -1,0 +1,105 @@
+<%= render 'shared/nav_top' %>
+<%= render 'shared/nav_side' %>
+
+<div class="container">
+      <div style="position: relative; height:80vh; width:80vw">
+         <h5><%= @sensor.name %></h5>
+         <canvas id="myChart"></canvas>
+         
+
+
+<script>
+var ctx = document.getElementById("myChart").getContext('2d');
+var io_data = [<% @timeseries.each do |sensor_reading| %><%= sensor_reading.property_value %>,<% end %> ];
+var formatted_dates = [<% @timeseries.each do |sensor_reading| %>"<%= sensor_reading.time.rfc2822 %>",<% end %> ];
+var colors = ['#5ba2df', '#e2ac00', '#59b110'];
+
+var data = {
+        labels: formatted_dates,
+
+        datasets: [{
+          spanGaps: false,
+          pointStyle: 'circle',
+          label: 'delads IO',
+          fill: 'origin',
+          backgroundColor: '#107dac',
+          data: io_data,
+          borderColor: '#107dac',
+          borderWidth: 3,
+        }]
+      };
+
+
+      var options = {
+        layout: {
+          padding: {
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 80,
+            plugins: {
+              filler: {
+                  propagate: true
+              }
+            }
+          }
+        },
+        cubicInterpolationMode: 'default',
+        elements: {
+          point: {
+            radius: 1,
+            hoverRadius: 5,
+          }
+        },
+        hover: {
+          mode: 'index',
+          intersect: false
+        },
+         responsive: true,
+         maintainAspectRatio: false,
+        tooltips: {
+          enabled: true,
+          mode: 'index',
+          intersect: false,
+          yAlign: 'right',
+        },
+        scales: {
+          xAxes: [{
+            type: 'time',
+            time: {
+                unit: 'day',
+              displayFormats: {
+                'minute': 'HH:mm',
+                'hour': 'HH:mm',
+                'day': 'dddd',
+                'week': 'MMM DD',
+                'month': 'MMM DD',
+              }
+            },
+            display: true,
+
+            gridLines: {
+              drawOnChartArea: false,
+            }
+          }],
+        }
+      };  // end of options
+
+      var linectx = document.getElementById('myChart').getContext('2d');
+        var lineChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            responsive: true,
+            options: options
+        });
+
+</script>
+   </div>
+
+</div>
+
+<script>
+        $(document).ready(function(){
+    $('.sidenav').sidenav();
+  });
+ </script>

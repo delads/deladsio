@@ -1,0 +1,39 @@
+<div class="container white_pane">
+  
+    <div class="row">
+  
+      <div class="col-md-6 product_header">
+
+       <!--  <%= link_to gravatar_for(@maker, size:75), maker_path(@maker) %> -->
+        &nbsp;&nbsp;
+        <%= @maker.makername %>
+     </div>
+    </div>
+  <br>
+  
+  
+  <ul class="nav nav-tabs">
+    <li class='active'>
+      <%= link_to "Env Settings", maker_path(@maker) %>
+    </li>
+    <% if logged_in? and @maker == current_user %>
+    <li>
+      <%= link_to "Your Profile", edit_maker_path(@maker) %>
+    </li>
+    <% end %>
+  </ul>
+
+    <% if logged_in? and @maker == current_user %>
+      <%= link_to new_sensor_path do %>
+       <%= image_tag "", class: "col-md-3 merchant_gallery" %>
+      <% end %>
+    <% end %>
+    
+
+    
+     <div class="well ">
+      Text
+     </div>
+
+  
+</div>
