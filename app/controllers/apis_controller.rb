@@ -21,7 +21,11 @@ class ApisController < ApplicationController
 
     #example data = 001-01-19.5 in the format of custId-SensorId-PropertyValue
 
-    data = params[:data]
+    hex_data = params[:data]
+
+    #sigfox transmits as hexidecimal data, so we need to unpack this
+    data = [hex_data].pack('H*')
+
     tokens = data.split("-")
     io_customer_id = tokens[0]
     io_sensor_id = tokens[1]
