@@ -17,6 +17,31 @@ class ApisController < ApplicationController
     
   end
 
+  def setsigfoxsensorvalue
+
+    #example data = 001-01-19.5 in the format of custId-SensorId-PropertyValue
+
+    data = params[:data]
+    tokens = data.split("-")
+    io_customer_id = tokens[0]
+    io_sensor_id = tokens[1]
+    io_property_value = tokens[2]
+
+    sensors = Sensor.where(sigfox_name: io_customer_id + '-' + io_sensor_id)
+    sensors.each{ |sensor|
+      sensor.property_value = io_property_value
+
+      # Hardcoding to Dublintime (UTC+1)
+      time = Time.now.localtime("+01:00").rfc2822
+      TimeSeries.create(:sensor_id => sensor.id, :property_value => io_property_value, :time => time);
+      sensor.save
+    }
+ 
+    render json: sensors
+
+
+  end
+
 
   def createtimeseries
     sensor_id = params[:sensor_id]

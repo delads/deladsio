@@ -70,7 +70,7 @@ before_action :require_user
     
   
     def sensor_params
-      params.require(:sensor).permit(:name, :sensor_type, :namespace, :mqtt_token, :mqtt_topic)
+      params.require(:sensor).permit(:name, :sensor_type, :namespace, :mqtt_token, :mqtt_topic, :sigfox_name)
     end
     
     def set_sensor
