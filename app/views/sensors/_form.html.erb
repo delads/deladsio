@@ -40,6 +40,7 @@
       
      
       <%= s.submit(@sensor.new_record? ? 'Create Sensor' : 'Edit Sensor', class: "btn btn-success") %>
+      <div class="btn btn-success white"><%= link_to 'Delete', "/sensors/#{@sensor.id}/destroy" %></div>
     <% end %>
   </div>
 </div>
