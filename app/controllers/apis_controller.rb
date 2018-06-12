@@ -26,7 +26,7 @@ class ApisController < ApplicationController
     #sigfox transmits as hexidecimal data, so we need to unpack this
     data = [hex_data].pack('H*')
 
-    tokens = data.split("-")
+    tokens = data.split("_")
     io_customer_id = tokens[0]
     io_sensor_id = tokens[1]
     io_property_value = tokens[2]
