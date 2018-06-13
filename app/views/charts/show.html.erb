@@ -4,6 +4,16 @@
 <div class="container">
       <div style="position: relative; height:80vh; width:80vw">
          <h5><%= @sensor.name %></h5>
+    
+        <% @sensors.each do |sensor| %>
+          <div class="col m12 s12">
+            <% if @sensor.id != sensor.id %>
+              <a href="/charts/<%= @sensor.id %>?compare_graph=<%= sensor.id %>"><%= sensor.name %></a>
+            <% end %>
+          </div>
+        <% end %>
+
+        
          <canvas id="myChart"></canvas>
          
 
@@ -11,8 +21,10 @@
 <script>
 var ctx = document.getElementById("myChart").getContext('2d');
 var io_data = [<% @timeseries.each do |sensor_reading| %><%= sensor_reading.property_value %>,<% end %> ];
+var compare_data = [<% @timeseriesCompare.each do |sensor_reading| %><%= sensor_reading.property_value %>,<% end %> ];
 var formatted_dates = [<% @timeseries.each do |sensor_reading| %>"<%= sensor_reading.time.rfc2822 %>",<% end %> ];
 var colors = ['#5ba2df', '#e2ac00', '#59b110'];
+
 
 var data = {
         labels: formatted_dates,
@@ -20,13 +32,26 @@ var data = {
         datasets: [{
           spanGaps: false,
           pointStyle: 'circle',
-          label: 'delads IO',
+          label: '<%= @sensor.name %>',
+          yAxisID: 'temperature',
           fill: 'origin',
-          backgroundColor: '#107dac',
+          backgroundColor: '#3700B3',
           data: io_data,
-          borderColor: '#107dac',
+          borderColor: '#3700B3',
           borderWidth: 3,
-        }]
+        },
+        {
+          spanGaps: false,
+          pointStyle: 'circle',
+          label: '<%= @sensorCompare.name %>',
+          yAxisID: 'pressure',
+          fill: 'origin',
+          backgroundColor: '#018786',
+          data: compare_data,
+          borderColor: '#018786',
+          borderWidth: 3,
+        }
+        ]
       };
 
 
@@ -82,6 +107,15 @@ var data = {
               drawOnChartArea: false,
             }
           }],
+          yAxes: [{
+            id: 'temperature',
+            type: 'linear',
+            position: 'left',
+          }, {
+            id: 'pressure',
+            type: 'linear',
+            position: 'right',
+          }]
         }
       };  // end of options
 

@@ -41,11 +41,11 @@ require 'uri'
               # http://io.delads.com and http://localhost:3000 (as there is no way of finding out this info)
 
 
-               uri_list = ['http://io.delads.com/api/createtimeseries',
-                           'http://io.delads.com/api/setsensorpropertyvalue']
+            #   uri_list = ['http://io.delads.com/api/createtimeseries',
+            #               'http://io.delads.com/api/setsensorpropertyvalue']
 
-              # uri_list = ['http://localhost:3000/api/createtimeseries',
-              #               'http://localhost:3000/api/setsensorpropertyvalue']
+               uri_list = ['http://localhost:3000/api/createtimeseries',
+                             'http://localhost:3000/api/setsensorpropertyvalue']
 
               uri_list.each do |link|
                 uri = URI(link)
