@@ -3,17 +3,32 @@
 
 <div class="container">
       <div style="position: relative; height:80vh; width:80vw">
-         <h5><%= @sensor.name %></h5>
-    
-        <% @sensors.each do |sensor| %>
-          <div class="col m12 s12">
-            <% if @sensor.id != sensor.id %>
-              <a href="/charts/<%= @sensor.id %>?compare_graph=<%= sensor.id %>"><%= sensor.name %></a>
-            <% end %>
-          </div>
-        <% end %>
 
-        
+      <div class="row">
+          <div class="col m4 s12">
+            <h5><%= @sensor.name %></h5>
+          </div>
+
+          <div class="input-field col offset-m4 m4 s12">
+            <form action="/charts/<%= @sensor.id %>">
+            <select name="compare_graph">
+              <option value="" disabled selected>Choose your option</option>
+              <% @sensors.each do |sensor| %>
+                <% if @sensor.id != sensor.id %>
+                  <option value="<%= sensor.id %>"><%= sensor.name %></option>
+                <% end %>
+              <% end %>
+            </select>
+            <label>Compare Sensor</label>
+            <button class="btn waves-effect waves-light right" type="submit">Compare
+            <i class="material-icons right">send</i>
+            </button>
+            </form>
+          </div>
+
+        </div>
+
+
          <canvas id="myChart"></canvas>
          
 
@@ -31,6 +46,7 @@ var data = {
 
         datasets: [{
           spanGaps: false,
+          showLine: true,
           pointStyle: 'circle',
           label: '<%= @sensor.name %>',
           yAxisID: 'temperature',
@@ -38,10 +54,11 @@ var data = {
           backgroundColor: "rgba(55, 0, 179, 0.3)",
           data: io_data,
           borderColor: "rgba(55, 0, 179, 0.5)",
-          borderWidth: 3,
+          borderWidth: 1,
         },
         {
           spanGaps: false,
+          showLine: true,
           pointStyle: 'circle',
           label: '<%= @sensorCompare.name %>',
           yAxisID: 'pressure',
@@ -49,7 +66,7 @@ var data = {
           backgroundColor: "rgba(1, 135, 134, 0.3)",
           data: compare_data,
           borderColor: "rgba(1, 135, 134, 0.5)",
-          borderWidth: 3,
+          borderWidth: 1,
         }
         ]
       };
@@ -135,5 +152,8 @@ var data = {
 <script>
         $(document).ready(function(){
     $('.sidenav').sidenav();
+    $('select').formSelect();
   });
  </script>
+
+
