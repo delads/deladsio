@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_06_205121) do
+ActiveRecord::Schema.define(version: 2018_06_17_211821) do
 
   create_table "makers", force: :cascade do |t|
     t.string "makername"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 2018_06_06_205121) do
     t.string "ifttt"
     t.string "sensor_type"
     t.string "sigfox_name"
+    t.string "altitude"
   end
 
   create_table "time_series", force: :cascade do |t|

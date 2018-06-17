@@ -10,6 +10,7 @@ class ApisController < ApplicationController
 
     sensor = Sensor.find(params[:sensor_id])
     property_value = params[:property_value]
+
     sensor.property_value = property_value
     
     sensor.save
@@ -25,6 +26,7 @@ class ApisController < ApplicationController
 
     #sigfox transmits as hexidecimal data, so we need to unpack this
     data = [hex_data].pack('H*')
+    #data = hex_data
 
     tokens = data.split("_")
     io_customer_id = tokens[0]
@@ -33,6 +35,24 @@ class ApisController < ApplicationController
 
     sensors = Sensor.where(sigfox_name: io_customer_id + '-' + io_sensor_id)
     sensors.each{ |sensor|
+
+      # If this is a pressure sensor, then the raw value will be the
+      # absolute pressure value at the current elevation. To calculate
+      # the sea-level pressure, we need to see if the user has inputed
+      # their elevation in meters. 
+
+      # Let's assume sea-level and if there's a stored value then great
+      if(sensor.sensor_type == 'Pressure' && sensor.altitude != nil)
+        # Formula is 
+        # rPresure = absPressure + altitude/8.3
+        
+        io_property_value = (io_property_value.to_f + (sensor.altitude.to_f/8.3)).to_i
+
+        puts("Received Pressure value - modified it from absolute to relative");
+
+      end
+
+
       sensor.property_value = io_property_value
       sensor.save
     }
@@ -53,6 +73,7 @@ class ApisController < ApplicationController
   def createtimeseries
     sensor_id = params[:sensor_id]
     property_value = params[:property_value]
+
 
     # Hardcoding to Dublintime (UTC+1)
     time = Time.now.localtime("+01:00").rfc2822
