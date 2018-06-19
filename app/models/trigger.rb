@@ -1,4 +1,4 @@
 class Trigger < ActiveRecord::Base
-  belongs_to :sensor
+  belongs_to :maker
 
 end

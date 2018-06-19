@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :makers, except: [:new] 
   resources :map
   resources :charts
+  resources  :triggers
 
   
   get '/dashboard' => 'dashboard#index'
@@ -24,6 +25,7 @@ Rails.application.routes.draw do
 
   get '/register', to: 'makers#new'
   get '/sensors/:id/destroy', to: 'sensors#destroy'
+  get '/triggers/:id/destroy', to: 'triggers#destroy'
 
   get '/makers/:id/destroy', to: 'makers#destroy'
 

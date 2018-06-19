@@ -39,7 +39,7 @@ before_action :require_user
      
         if @sensor.save
           flash[:success] = "Your sensor was created: " 
-          redirect_to root_path
+          redirect_to dashboard_path
           
         else
           render :new
@@ -51,7 +51,7 @@ before_action :require_user
     def update
         if @sensor.update(sensor_params)       
           flash[:success] = "Your sensor was updated successfully!"
-          redirect_to root_path
+          redirect_to dashboard_path
         else
           render :edit
         end
@@ -64,7 +64,7 @@ before_action :require_user
         TimeSeries.where("sensor_id" == sensor_id).delete_all
         Sensor.find(sensor_id).destroy
         flash[:success] = "Sensor deleted"
-        redirect_to root_path
+        redirect_to dashboard_path
     end
     
     

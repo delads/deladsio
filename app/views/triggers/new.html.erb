@@ -1,4 +1,17 @@
-<%= render 'shared/page_title', title: 'Create a new Trigger' %>
+<%= render 'shared/nav_top' %>
+<%= render 'shared/nav_side' %>
+
+<div class="container">
+    <h5>Create new trigger</h5>
+</div>
+
 
 
 <%= render 'form' %>
+
+<script>
+       $(document).ready(function(){
+    $('.sidenav').sidenav();
+    $('select').formSelect();
+  });
+</script>

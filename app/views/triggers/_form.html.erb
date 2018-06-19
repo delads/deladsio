@@ -1,3 +1,4 @@
+
 <div class="container">
 <%= render 'shared/errors', obj: @trigger %>
 
@@ -5,27 +6,51 @@
   
   
   <div class="well col-md-4 col-md-offset-4">
-    
-    <h2><%= @sensor.name %> </h2>
-    
-    <%= form_for(@trigger, html: { multipart: true }) do |f| %>
-    
-      
-    
-      <%= f.label :name %>
-      <%= f.text_field :name %>
+    <%= form_for(@trigger, html: { multipart: true }) do |t| %>
+      <%= t.label :name %>
+      <%= t.text_field :name %>
 
-      <%= f.label :value %>
-      <%= f.text_field :value %>
+      <% sensorList = Hash.new %>
+
+      <% @sensors.each do |sensor| %>      
+      <% sensorList[sensor.name] = sensor.id %>
+      <% end %>
+
+      <%= t.label :sensor_id %>
+      <%= t.select :sensor_id, sensorList %>  
+
+       <%= t.label :condition %>
+      <%= t.select :condition,
+          [ 'Is Greater Than Or Equal To', 
+            'Is Less Than'] %>  
       
-      <%= f.label :webhook_url %>
-      <%= f.text_field :webhook_url %>
+      <br>
+
+      <%= t.label :value %>
+      <%= t.text_field :value %>
       
+      <%= t.label :email %>
+      <%= t.text_field :email %>
+
+      <%= t.label :sms %>
+      <%= t.text_field :sms %>
+
+      <%= t.label :webhook_url %>
+      <%= t.text_field :webhook_url %>
+
+
+
+
+
+
+
+
       
-      <%= f.hidden_field :sensor_id, :value => @sensor.id %>
-      
-      <%= f.submit(@trigger.new_record? ? 'Create Trigger' : 'Edit Trigger', class: "btn btn-success") %>
+     
+      <%= t.submit(@trigger.new_record? ? 'Create Trigger' : 'Edit Trigger', class: "btn btn-success") %>
+      <div class="btn btn-success white"><%= link_to 'Delete', "/triggers/#{@trigger.id}/destroy" %></div>
     <% end %>
   </div>
 </div>
 </div>
+

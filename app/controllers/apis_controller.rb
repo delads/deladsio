@@ -4,8 +4,6 @@ class ApisController < ApplicationController
   before_action :set_maker, only: [:listthermostats, :describemaker, :settemperature]
 
 
-
-
   def setsensorpropertyvalue
 
     sensor = Sensor.find(params[:sensor_id])
@@ -25,8 +23,8 @@ class ApisController < ApplicationController
     hex_data = params[:data]
 
     #sigfox transmits as hexidecimal data, so we need to unpack this
-    data = [hex_data].pack('H*')
-    #data = hex_data
+    #data = [hex_data].pack('H*')
+    data = hex_data
 
     tokens = data.split("_")
     io_customer_id = tokens[0]
@@ -48,20 +46,56 @@ class ApisController < ApplicationController
         
         io_property_value = (io_property_value.to_f + (sensor.altitude.to_f/8.3)).to_i
 
-        puts("Received Pressure value - modified it from absolute to relative");
-
       end
 
 
       sensor.property_value = io_property_value
       sensor.save
-    }
-
-    sensors = Sensor.where(sigfox_name: io_customer_id + '-' + io_sensor_id)
-    sensors.each{ |sensor|
+      
       # Hardcoding to Dublintime (UTC+1)
       time = Time.now.localtime("+01:00").rfc2822
       TimeSeries.create(:sensor_id => sensor.id, :property_value => io_property_value, :time => time);
+
+      triggers = Trigger.where(sensor_id: sensor.id)
+
+      triggers.each do |trigger|
+
+        # Let's check the condition
+        value = trigger.value
+        condition = trigger.condition
+
+        if((condition == "Is Greater Than Or Equal To" && io_property_value.to_f >= value.to_f) ||
+              (condition == "Is Less Than" && io_property_value.to_f < value.to_f))
+        
+          if (trigger.email != nil)
+
+          end
+
+          if (trigger.sms != nil)
+
+          end
+
+          if (trigger.webhook_url != nil)
+
+            wellformedURI = trigger.webhook_url.gsub(' ','%20')
+            
+            puts wellformedURI
+
+            uri = URI.parse(wellformedURI)
+            req = Net::HTTP::Get.new(uri, 'Content-Type' => 'application/json')
+            req.body = {'Value1'=> trigger.name, 'Value2' => io_property_value, 'Value3' => trigger.value}.to_json
+            res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+              http.request(req)
+            end
+
+            puts res.body
+          end
+
+        end
+
+      end
+
+
     }
 
     render json: sensors
