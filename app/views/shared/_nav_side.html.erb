@@ -4,8 +4,11 @@
         <img src="/images/nav_backsplash.png">
       </div>
       <!-- <a href="#user"><img class="circle" src="https://avatars0.githubusercontent.com/u/10013762?s=460&v=4"></a> -->
+
+      <% if @maker  %>
       <a href="#name"><span class="white-text name"><%= @maker.makername %></span></a>
       <a href="#email"><span class="white-text email"><%= @maker.email %></span></a>
+      <% end %>
 
     </div></li>
     <li><a href="/dashboard"><i class="material-icons">dashboard</i>Dashboard</a></li>
