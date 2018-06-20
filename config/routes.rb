@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   
   # view routes
   resources :sensors
-  resources :makers, except: [:new] 
+  resources :makers
   resources :map
   resources :charts
   resources  :triggers
@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   
   get '/dashboard' => 'dashboard#index'
   get '/triggers' => 'triggers#index'
+  get '/billing' => 'billing#index'
 
   get '/login', to: "logins#new"
   post '/login', to: "logins#create"

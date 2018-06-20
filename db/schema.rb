@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_18_153533) do
+ActiveRecord::Schema.define(version: 2018_06_20_004140) do
 
   create_table "makers", force: :cascade do |t|
     t.string "makername"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2018_06_18_153533) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "stripe_customer_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|

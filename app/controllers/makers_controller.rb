@@ -4,6 +4,9 @@ class MakersController < ApplicationController
   before_action :require_admin_user, only: [:index]
   before_action :build_sensor_map, only: [:index]
   before_action :build_sensor_measure_map, only: [:index]
+  before_action :set_stripe_env, only: [:create]
+
+  
 
   
   
@@ -14,6 +17,9 @@ class MakersController < ApplicationController
   
   def new 
     @maker = Maker.new
+
+    
+
   end 
   
   def destroy
@@ -37,9 +43,19 @@ class MakersController < ApplicationController
   
   def create
     @maker = Maker.new(maker_params)
+
+
+    #Let's create this maker as a customer object on Stripe
+    customer = Stripe::Customer.create({
+      email: @maker.email
+    })
+
+    @maker.stripe_customer_id = customer.id
+
     if @maker.save
       flash[:success] = "Your account has been created successfully"
       session[:maker_id] = @maker.id
+
       redirect_to maker_path(@maker)
     else
       render 'new'
@@ -120,6 +136,10 @@ class MakersController < ApplicationController
       @sensor_measure["Rainfall"] = "mm"
       @sensor_measure["Windspeed"] = "km/h"
   
+    end
+
+    def set_stripe_env
+      Stripe.api_key = "sk_test_KNQxI3UCqUgrZIA5sK2cLvM9"
     end
     
 

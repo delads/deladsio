@@ -3,9 +3,10 @@ class DashboardController < ApplicationController
   before_action :build_sensor_map
   before_action :build_sensor_measure_map
   before_action :require_user
+  before_action :set_maker
   
   def index
-    @sensors = Sensor.all
+    @sensors = Sensor.where(maker_id: current_user)
   end
 
   def build_sensor_map
@@ -32,6 +33,10 @@ class DashboardController < ApplicationController
     @sensor_measure["Rainfall"] = "mm"
     @sensor_measure["Windspeed"] = "km/h"
 
+  end
+
+  def set_maker
+    @maker = current_user
   end
 
 

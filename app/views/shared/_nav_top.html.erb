@@ -1,10 +1,17 @@
 <nav>
         <div class="nav-wrapper blue-grey darken-1">
-        <a href="/" class="brand-logo">&nbsp;ecocube.io</a>
+        <a href="/dashboard" class="brand-logo">&nbsp;ecocube.io</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="/">Features</a></li>
-            <li><a href="/">Pricing</a></li>
-            <li><a href="/login">Login</a></li>
+            <li><a href="/billing">Pricing</a></li>
+
+            <% if current_user != nil %>
+             <li><a href="/makers/<%= current_user.id %>">Account</a></li>
+             <li><a href="/logout">Logout</a></li>
+            <% else %>
+                <li><a href="/login">Login</a></li>
+            <% end %>
+
         </ul>
         </div>
     </nav>
