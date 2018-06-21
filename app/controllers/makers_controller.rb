@@ -98,7 +98,12 @@ class MakersController < ApplicationController
 
     #if we don't already have a Stripe customer id associated with this maker
     #let's create one
-    customer = Stripe::Customer.retrieve(stripe_customer_id)
+
+    if(stripe_customer_id == nil)
+      customer = nil
+    else
+      customer = Stripe::Customer.retrieve(stripe_customer_id)
+    end
 
     puts customer
 
