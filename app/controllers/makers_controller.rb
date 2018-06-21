@@ -98,14 +98,16 @@ class MakersController < ApplicationController
 
     #if we don't already have a Stripe customer id associated with this maker
     #let's create one
+    customer = Stripe::Customer.retrieve(stripe_customer_id)
 
-    if(stripe_customer_id == nil)
+    puts customer
+
+    if(customer == nil || customer.deleted) 
       customer = Stripe::Customer.create({email: @maker.email})
       @maker.stripe_customer_id = customer.id
       @maker.save
     end
 
-    customer = Stripe::Customer.retrieve(stripe_customer_id)
     default_source = customer.default_source
 
     if(default_source != nil)
