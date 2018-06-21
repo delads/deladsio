@@ -42,24 +42,38 @@ class MakersController < ApplicationController
     
   
   def create
-    @maker = Maker.new(maker_params)
 
+    #Let's make sure this email has not been taken before (prevevnt someone from creating more than one account)
+    email = params[:email]
+    makers = Maker.where(email: email)
 
-    #Let's create this maker as a customer object on Stripe
-    customer = Stripe::Customer.create({
-      email: @maker.email
-    })
-
-    @maker.stripe_customer_id = customer.id
-
-    if @maker.save
-      flash[:success] = "Your account has been created successfully"
-      session[:maker_id] = @maker.id
-
-      redirect_to maker_path(@maker)
-    else
+    if (makers)
+      flash[:danger] = "email is already taken"
+      @maker = Maker.new
       render 'new'
+    else
+
+      @maker = Maker.new(maker_params)
+
+
+      #Let's create this maker as a customer object on Stripe
+      customer = Stripe::Customer.create({
+        email: @maker.email
+      })
+
+      @maker.stripe_customer_id = customer.id
+
+      if @maker.save
+        flash[:success] = "Your account has been created successfully"
+        session[:maker_id] = @maker.id
+
+        redirect_to maker_path(@maker)
+      else
+        render 'new'
+      end
     end
+
+
   end
   
   def edit
@@ -79,6 +93,14 @@ class MakersController < ApplicationController
   def show
 #    @thermostats = @merchant.products.paginate(page: params[:page], per_page: 3)
     @sensors = @maker.sensors
+    
+    stripe_customer_id = @maker.stripe_customer_id
+    customer = Stripe::Customer.retrieve(stripe_customer_id)
+    default_source = customer.default_source
+
+    if(default_source != nil)
+      @default_card = customer.sources.retrieve(default_source)
+    end
     
     
   end

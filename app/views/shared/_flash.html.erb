@@ -1,0 +1,9 @@
+<% flash.each do |name, msg| -%>
+    <% if name == 'danger'%>
+        <div class="card-panel red darken-1 white-text">
+    <% else %>
+         <div class="card-panel teal darken-1 white-text">
+    <% end %>
+      <%= content_tag :div, msg, class: name %>
+      </div>
+<% end -%>

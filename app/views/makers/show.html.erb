@@ -36,9 +36,15 @@
           <div class="section">
             <div class="row">
             <div class="col white-text s2 m2">Payment</div>
-            <div class="col white-text s6 m4 offset-s2 offset-m2">No Payment Source</div>
+
+            <% if @default_card %>
+              <div class="col white-text s6 m4 offset-s2 offset-m2">**** ***** **** <%=  @default_card.last4 %></div>
+            <% else %>
+              <div class="col white-text s6 m4 offset-s2 offset-m2">No Payment Source</div>
+            <% end %>
+            
             <div class="col s2 m1 push">
-                <div class="btn btn-success white"><%= link_to 'Change', "/billing" %></div>
+                <div class="btn btn-success white"><%= link_to 'Change', "/payment" %></div>
               </div>
             </div>
           </div>
