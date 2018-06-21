@@ -4,7 +4,7 @@ class MakersController < ApplicationController
   before_action :require_admin_user, only: [:index]
   before_action :build_sensor_map, only: [:index]
   before_action :build_sensor_measure_map, only: [:index]
-  before_action :set_stripe_env, only: [:create]
+  before_action :set_stripe_env
 
   
 
