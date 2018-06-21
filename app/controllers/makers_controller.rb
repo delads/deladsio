@@ -91,10 +91,20 @@ class MakersController < ApplicationController
   
   
   def show
-#    @thermostats = @merchant.products.paginate(page: params[:page], per_page: 3)
+
     @sensors = @maker.sensors
     
     stripe_customer_id = @maker.stripe_customer_id
+
+    #if we don't already have a Stripe customer id associated with this maker
+    #let's create one
+
+    if(stripe_customer_id == nil)
+      customer = Stripe::Customer.create({email: @maker.email})
+      @maker.stripe_customer_id = customer.id
+      @maker.save
+    end
+
     customer = Stripe::Customer.retrieve(stripe_customer_id)
     default_source = customer.default_source
 
