@@ -2,7 +2,7 @@
         <div class="nav-wrapper blue-grey darken-1">
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">more_vert</i></a>
         <a href="/dashboard" class="brand-logo">&nbsp;ecocube.io</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <ul class="right hide-on-med-and-down">
             <li><a href="/">Features</a></li>
             <li><a href="/billing">Pricing</a></li>
 
@@ -18,7 +18,8 @@
     </nav>
 
 
-      <ul class="sidenav right" id="mobile-demo">
+
+      <ul class="sidenav" id="mobile-demo">
             <li><a href="/">Features</a></li>
             <li><a href="/billing">Pricing</a></li>
             <% if current_user != nil %>
@@ -28,3 +29,5 @@
                 <li><a href="/login">Login</a></li>
             <% end %>
     </ul>
+
+
