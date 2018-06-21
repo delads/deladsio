@@ -107,7 +107,7 @@ class MakersController < ApplicationController
 
     puts customer
 
-    if(customer == nil || customer.deleted) 
+    if(customer == nil || customer[:deleted]) 
       customer = Stripe::Customer.create({email: @maker.email})
       @maker.stripe_customer_id = customer.id
       @maker.save
