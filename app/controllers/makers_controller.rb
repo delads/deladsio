@@ -93,7 +93,6 @@ class MakersController < ApplicationController
   def show
 
     @sensors = @maker.sensors
-    
     stripe_customer_id = @maker.stripe_customer_id
 
     #if we don't already have a Stripe customer id associated with this maker
@@ -118,6 +117,9 @@ class MakersController < ApplicationController
     if(default_source != nil)
       @default_card = customer.sources.retrieve(default_source)
     end
+
+
+    @subscriptions = customer.subscriptions
     
     
   end

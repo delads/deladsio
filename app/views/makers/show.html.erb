@@ -17,7 +17,7 @@
           <div class="section">
             <div class="row">
             <div class="col white-text s2 m2">Email</div>
-            <div class="col white-text s6 m4 offset-s2 offset-m2"><%= @maker.email %></div>
+            <div class="col white-text s6 m6 offset-s2 offset-m2"><%= @maker.email %></div>
             </div>
           </div>
           <br>
@@ -26,7 +26,22 @@
           <div class="section">
             <div class="row">
               <div class="col white-text s2 m2">Plan</div>
-              <div class="col white-text s6 m4 offset-s2 offset-m2">No Plan in place</div>
+              <div class="col white-text s6 m6 offset-s2 offset-m2">
+
+              <% if @subscriptions.any? %>
+                <% @subscriptions.each do |sub| %>
+                  
+                  <% sub.items.each do |item|%>
+                      <div><%= item.plan.nickname %></div>
+                  <% end %>
+
+                <% end %>
+
+              <% else %>
+                <div>No Plan in place</div>
+              <% end %>
+
+              </div>
               <div class="col s2 m1 push"><div class="btn btn-success white"><%= link_to 'Change', "/billing" %></div>
               </div>
             </div>
@@ -39,9 +54,9 @@
             <div class="col white-text s2 m2">Payment</div>
 
             <% if @default_card %>
-              <div class="col white-text s6 m4 offset-s2 offset-m2">**** ***** **** <%=  @default_card.last4 %></div>
+              <div class="col white-text s6 m6 offset-s2 offset-m2">**** ***** **** <%=  @default_card.last4 %></div>
             <% else %>
-              <div class="col white-text s6 m4 offset-s2 offset-m2">No Payment Source</div>
+              <div class="col white-text s6 m6 offset-s2 offset-m2">No Payment Source</div>
             <% end %>
             
             <div class="col s2 m1 push">
@@ -55,7 +70,36 @@
           <div class="section">
             <div class="row">
             <div class="col white-text s2 m2">Billing Cycle</div>
-            <div class="col white-text s6 m4 offset-s2 offset-m2">No billing cycle in place</div>
+
+            <div class="col white-text s6 m6 offset-s2 offset-m2">
+
+              <% if @subscriptions.any? %>
+                <% @subscriptions.each do |sub| %>
+
+                      <% plan_amount = 0 %>
+                      <% currency_symbol = ""%>
+
+                        <% sub.items.each do |item|%>
+                        <% plan_amount = plan_amount + item.plan.amount.to_i %> 
+
+                        <% if item.plan.currency == "eur" %>
+                          <% currency_symbol = "€" %>
+                        <% elsif item.plan.currency == "usd" %>
+                          <% currency_symbol = "$" %>
+                        <% end %>
+                      <% end %>
+                      
+                      
+                      
+                      
+                      <div>You will be billed <%= currency_symbol %><%= plan_amount.to_s %> on <%= Time.at(sub.current_period_end).to_date %></div>
+                <% end %>             
+              <% else %>
+                <div>No billing cycle in place</div>
+              <% end %>
+
+            </div>
+            
             <div class="col s2 m1 push">
                 <div class="btn btn-success white"><%= link_to 'Change', "/billing" %></div>
               </div>
@@ -67,7 +111,7 @@
           <div class="section">
             <div class="row">
             <div class="col white-text s2 m2">EcoCubes</div>
-            <div class="col white-text s6 m4 offset-s2 offset-m2">You currently own 1 EcoCube</div>
+            <div class="col white-text s6 m6 offset-s2 offset-m2">You currently own 1 EcoCube</div>
             <div class="col s2 m1 push">
                 <div class="btn btn-success white"><%= link_to 'Change', "/billing" %></div>
               </div>
@@ -79,7 +123,7 @@
            <div class="section">
             <div class="row">
             <div class="col white-text s2 m2">Alerts</div>
-            <div class="col white-text s6 m4 offset-s2 offset-m2">You have used 0 alerts</div>
+            <div class="col white-text s6 m6 offset-s2 offset-m2">You have used 0 alerts</div>
             </div>
           </div>
           <br>

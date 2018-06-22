@@ -1,0 +1,150 @@
+<%= render 'shared/nav_top' %>
+<%= render 'shared/nav_side' %>
+<%= render 'shared/flash'%>
+
+<div class="container">
+    <div class="row" >
+        <div class="col m6 offset-m3">
+            <div class="card horizontal">
+                <div class="card-content">
+                    <span class="card-title"><%= @product%></span>
+                    <table><tr>
+                    <td>1  X  </td><td>monthly subscription (for 1st ecoCube)</td><td>€20</td>
+                    </tr><tr>
+
+                    <% if @number_of_cubes > 1%>
+                     <td><%= @number_of_extra_cubes %>  X  </td><td>monthly subscription (for extra ecoCubes)</td><td><%=@extra_subscriptions%></td>
+                     </tr><tr>
+                    <% end %>
+
+
+                    <td><%= @number_of_cubes %>  X  </td><td>EcoCube (4 sensors each)</td><td>€<%=@total_cube_price %></td>
+                    </tr><tr>
+                    <td>0  X  </td><td>Alerts (calculated @ end of month)</td><td>€0</td>
+                    </tr></table>
+                    
+                    <br><br>
+
+                    Change number of EcoCubes
+                    <form action="/order" method="get">
+                    <input type="hidden" name="product" value="hobby">
+                    <select name="amount">
+                        <option value="1" <% if @number_of_cubes == 1 %>selected <% end%> >1</option>
+                        <option value="2" <% if @number_of_cubes == 2 %>selected <% end%> >2</option>
+                        <option value="3" <% if @number_of_cubes == 3 %>selected <% end%> >3</option>
+                        <option value="4" <% if @number_of_cubes == 4 %>selected <% end%> >4</option>
+                        <option value="5" <% if @number_of_cubes == 5 %>selected <% end%> >5</option>
+                    </select>
+                        <button class="btn waves-effect waves-light">Change</button>
+                    </form>
+
+                    <br><br>
+
+                    <h6>Total payment now €<%=@total_price %></h6> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col m4 offset-m4 s12">
+            <form action="/addcreditcard" method="post" id="payment-form">
+            <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+                    <label for="card-element">
+                    <h6>Credit or debit card</h6>
+                    </label>
+                    <div id="card-element">
+                    <!-- A Stripe Element will be inserted here. -->
+                    </div>
+
+                    <!-- Used to display form errors. -->
+                    <div id="card-errors" role="alert"></div>
+                <br>
+                <button class="btn waves-effect waves-light">Add Credit Card</button>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script>
+        $(document).ready(function(){
+    $('.sidenav').sidenav();
+    $('select').formSelect();
+  });
+
+   // Create a Stripe client.
+    var stripe = Stripe('pk_test_eEaAgIXINXVLsw2Tyonp8y9g');
+
+    // Create an instance of Elements.
+    var elements = stripe.elements();
+
+    // Custom styling can be passed to options when creating an Element.
+    // (Note that this demo uses a wider set of styles than the guide below.)
+    var style = {
+    base: {
+        color: '#32325d',
+        lineHeight: '18px',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+        color: '#aab7c4'
+        }
+    },
+    invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a'
+    }
+    };
+
+    // Create an instance of the card Element.
+    var card = elements.create('card', {style: style});
+
+    // Add an instance of the card Element into the `card-element` <div>.
+    card.mount('#card-element');
+
+    // Handle real-time validation errors from the card Element.
+    card.addEventListener('change', function(event) {
+    var displayError = document.getElementById('card-errors');
+    if (event.error) {
+        displayError.textContent = event.error.message;
+    } else {
+        displayError.textContent = '';
+    }
+    });
+
+    // Handle form submission.
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    stripe.createToken(card).then(function(result) {
+        if (result.error) {
+        // Inform the user if there was an error.
+        var errorElement = document.getElementById('card-errors');
+        errorElement.textContent = result.error.message;
+        } else {
+        // Send the token to your server.
+        stripeTokenHandler(result.token);
+        }
+    });
+    });
+
+
+    function stripeTokenHandler(token) {
+    // Insert the token ID into the form so it gets submitted to the server
+    var form = document.getElementById('payment-form');
+    var hiddenInput = document.createElement('input');
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', 'stripeToken');
+    hiddenInput.setAttribute('value', token.id);
+    form.appendChild(hiddenInput);
+
+    // Submit the form
+    form.submit();
+    }
+
+</script>

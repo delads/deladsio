@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get '/dashboard' => 'dashboard#index'
   get '/triggers' => 'triggers#index'
   get '/billing' => 'billing#index'
+  get '/order'   => 'billing#order'
   get '/payment' => 'payment#index'
   post '/addcreditcard' => 'payment#addcreditcard'
   get '/deletecreditcard' => 'payment#deletecreditcard'
