@@ -41,3 +41,9 @@
   .StripeElement--webkit-autofill {
     background-color: #fefde5 !important;
   }
+
+  .splash img {width: 100%;}
+
+  .parallax img { width: 100%; }
+
+  .parallax-container { width: 100%;}
