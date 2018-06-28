@@ -2,11 +2,22 @@ class DashboardController < ApplicationController
 
   before_action :build_sensor_map
   before_action :build_sensor_measure_map
-  before_action :require_user
+  # before_action :require_user
   before_action :set_maker
   
   def index
-    @sensors = Sensor.where(maker_id: current_user)
+
+    # Let's give people a demo account so they can see what it's all about
+    demo_account = Maker.where(email: "demo@ecocube.io").first
+
+    if(current_user != nil)
+     @sensors = Sensor.where(maker_id: current_user)
+    else
+      @sensors = Sensor.where(maker_id: demo_account.id )
+      flash[:demo] = "Demo Dashboard. These are actual sensor readings in a 
+                      remote location on the river bank of a small Irish village.
+                      Demo accounts cannot edit existing sensors"
+    end
   end
 
   def build_sensor_map

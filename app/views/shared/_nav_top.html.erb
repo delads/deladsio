@@ -1,10 +1,16 @@
 <nav>
         <div class="nav-wrapper blue-grey darken-1">
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">more_vert</i></a>
-        <a href="/dashboard" class="brand-logo">&nbsp;ecocube.io</a>
+        <a href="/" class="brand-logo">&nbsp;ecocube.io</a>
         <ul class="right hide-on-med-and-down">
-            <li><a href="/">Features</a></li>
-            <li><a href="/billing">Pricing</a></li>
+
+            <% if current_user != nil %>
+                <li><a href="/dashboard">Dashboard</a></li>
+            <% else %>
+                <li><a href="/dashboard">Demo Dashboard</a></li>
+            <% end %>
+
+            <li><a href="/billing">Pricing (test mode) </a></li>
 
             <% if current_user != nil %>
              <li><a href="/makers/<%= current_user.id %>">Account</a></li>
@@ -20,8 +26,12 @@
 
 
       <ul class="sidenav" id="mobile-demo">
-            <li><a href="/">Features</a></li>
-            <li><a href="/billing">Pricing</a></li>
+            <% if current_user != nil %>
+                <li><a href="/dashboard">Dashboard</a></li>
+            <% else %>
+                <li><a href="/dashboard">Demo Dashboard</a></li>
+            <% end %>
+            <li><a href="/billing">Pricing (test mode)</a></li>
             <% if current_user != nil %>
              <li><a href="/makers/<%= current_user.id %>">Account</a></li>
              <li><a href="/logout">Logout</a></li>

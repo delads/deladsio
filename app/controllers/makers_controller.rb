@@ -47,7 +47,7 @@ class MakersController < ApplicationController
     email = params[:email]
     makers = Maker.where(email: email)
 
-    if (makers)
+    if (makers.any?)
       flash[:danger] = "email is already taken"
       @maker = Maker.new
       render 'new'

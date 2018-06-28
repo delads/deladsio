@@ -46,24 +46,28 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col m4 offset-m4 s12">
-            <form action="/addcreditcard" method="post" id="payment-form">
-            <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
-                    <label for="card-element">
-                    <h6>Credit or debit card</h6>
-                    </label>
-                    <div id="card-element">
-                    <!-- A Stripe Element will be inserted here. -->
-                    </div>
+    <% if current_user != nil %>
 
-                    <!-- Used to display form errors. -->
-                    <div id="card-errors" role="alert"></div>
-                <br>
-                <button class="btn waves-effect waves-light">Add Credit Card</button>
-            </form>
+        <div class="row">
+            <div class="col m4 offset-m4 s12">
+                <form action="/addcreditcard" method="post" id="payment-form">
+                <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+                        <label for="card-element">
+                        <h6>Credit or debit card</h6>
+                        </label>
+                        <div id="card-element">
+                        <!-- A Stripe Element will be inserted here. -->
+                        </div>
+
+                        <!-- Used to display form errors. -->
+                        <div id="card-errors" role="alert"></div>
+                    <br>
+                    <button class="btn waves-effect waves-light">Add Credit Card</button>
+                </form>
+            </div>
         </div>
-    </div>
+
+    <% end %>
 
 
 </div>

@@ -35,6 +35,13 @@ class PaymentController < ApplicationController
 
     def set_maker
         @maker = current_user
+
+        if(current_user != nil)
+            flash[:demo] = "Test Mode for Stripe Billing only"
+        else
+            flash[:demo] = "Test Mode for Stripe Billing only. Please log in to test this functionality"
+        end
+        
     end
 
     def set_stripe_env
