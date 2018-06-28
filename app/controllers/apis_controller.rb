@@ -52,15 +52,14 @@ class ApisController < ApplicationController
       sensor.property_value = io_property_value
       sensor.save
       
-      # Hardcoding to Dublintime (UTC+1)
-      time = Time.now.localtime("+01:00").rfc2822
+      time = Time.now
 
-      # Let's round to the nearest 5 mins to all readings around the same
+      # Let's round to the nearest/lowest 5 mins to all readings around the same
       # time fall into the same timeslot
-      rounded_time = time-time.sec-time.min%5*60
+      rounded_down = time-time.sec-time.min%5*60
 
 
-      TimeSeries.create(:sensor_id => sensor.id, :property_value => io_property_value, :time => rounded_time);
+      TimeSeries.create(:sensor_id => sensor.id, :property_value => io_property_value, :time => rounded_down);
 
       triggers = Trigger.where(sensor_id: sensor.id)
 
