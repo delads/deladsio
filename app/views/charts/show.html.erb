@@ -38,7 +38,7 @@
 var ctx = document.getElementById("myChart").getContext('2d');
 var io_data = [<% @timeseries.each do |sensor_reading| %><%= sensor_reading.property_value %>,<% end %> ];
 var compare_data = [<% @timeseriesCompare.each do |sensor_reading| %><%= sensor_reading.property_value %>,<% end %> ];
-var formatted_dates = [<% @timeseries.each do |sensor_reading| %>"<%= sensor_reading.time.rfc2822 %>",<% end %> ];
+var formatted_dates = [<% @timeseries.each do |sensor_reading| %>"<%= sensor_reading.time.localtime("+01:00").rfc2822 %>",<% end %> ];
 var colors = ['#5ba2df', '#e2ac00', '#59b110'];
 
 

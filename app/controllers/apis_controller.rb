@@ -54,7 +54,13 @@ class ApisController < ApplicationController
       
       # Hardcoding to Dublintime (UTC+1)
       time = Time.now.localtime("+01:00").rfc2822
-      TimeSeries.create(:sensor_id => sensor.id, :property_value => io_property_value, :time => time);
+
+      # Let's round to the nearest 5 mins to all readings around the same
+      # time fall into the same timeslot
+      rounded_time = time-time.sec-time.min%5*60
+
+
+      TimeSeries.create(:sensor_id => sensor.id, :property_value => io_property_value, :time => rounded_time);
 
       triggers = Trigger.where(sensor_id: sensor.id)
 
@@ -165,4 +171,6 @@ class ApisController < ApplicationController
       # @stripe_client_id = ENV['STRIPE_CLIENT_ID_TEST']
     end
 end
+
+
   
