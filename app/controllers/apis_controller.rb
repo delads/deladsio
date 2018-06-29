@@ -29,7 +29,8 @@ class ApisController < ApplicationController
     tokens = data.split("_")
     io_customer_id = tokens[0]
     io_sensor_id = tokens[1]
-    io_property_value = tokens[2]
+    io_property_value_in = tokens[2]
+    io_property_value_out = io_property_value_in
 
     sensors = Sensor.where(sigfox_name: io_customer_id + '-' + io_sensor_id)
     sensors.each{ |sensor|
@@ -44,12 +45,12 @@ class ApisController < ApplicationController
         # Formula is 
         # rPresure = absPressure + altitude/8.3
         
-        new_io_property_value = (io_property_value.to_f + (sensor.altitude.to_f/8.3)).to_i
+        io_property_value_out = (io_property_value_in.to_f + (sensor.altitude.to_f/8.3)).to_i
 
       end
 
 
-      sensor.property_value = new_io_property_value
+      sensor.property_value = io_property_value_out
       sensor.save
       
       time = Time.now
@@ -59,7 +60,7 @@ class ApisController < ApplicationController
       rounded_down = time-time.sec-time.min%5*60
 
 
-      TimeSeries.create(:sensor_id => sensor.id, :property_value => io_property_value, :time => rounded_down);
+      TimeSeries.create(:sensor_id => sensor.id, :property_value => io_property_value_out, :time => rounded_down);
 
       triggers = Trigger.where(sensor_id: sensor.id)
 
@@ -69,8 +70,8 @@ class ApisController < ApplicationController
         value = trigger.value
         condition = trigger.condition
 
-        if((condition == "Is Greater Than Or Equal To" && io_property_value.to_f >= value.to_f) ||
-              (condition == "Is Less Than" && io_property_value.to_f < value.to_f))
+        if((condition == "Is Greater Than Or Equal To" && io_property_value_out.to_f >= value.to_f) ||
+              (condition == "Is Less Than" && io_property_value_out.to_f < value.to_f))
         
           if (trigger.email != nil)
 
@@ -88,7 +89,7 @@ class ApisController < ApplicationController
 
             uri = URI.parse(wellformedURI)
             req = Net::HTTP::Get.new(uri, 'Content-Type' => 'application/json')
-            req.body = {'Value1'=> trigger.name, 'Value2' => io_property_value, 'Value3' => trigger.value}.to_json
+            req.body = {'Value1'=> trigger.name, 'Value2' => io_property_value_out, 'Value3' => trigger.value}.to_json
             res = Net::HTTP.start(uri.hostname, uri.port) do |http|
               http.request(req)
             end
