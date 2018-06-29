@@ -44,12 +44,12 @@ class ApisController < ApplicationController
         # Formula is 
         # rPresure = absPressure + altitude/8.3
         
-        io_property_value = (io_property_value.to_f + (sensor.altitude.to_f/8.3)).to_i
+        new_io_property_value = (io_property_value.to_f + (sensor.altitude.to_f/8.3)).to_i
 
       end
 
 
-      sensor.property_value = io_property_value
+      sensor.property_value = new_io_property_value
       sensor.save
       
       time = Time.now

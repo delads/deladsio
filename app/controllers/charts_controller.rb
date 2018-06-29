@@ -7,13 +7,17 @@ class ChartsController < ApplicationController
 
   def show
 
+    makerId = current_user
+
     if(current_user == nil)
       flash[:demo] = "Demo Dashboard. These are actual sensor readings in a 
                         remote location on the river bank of a small Irish village.
                         Demo accounts cannot edit existing sensors"
+
+      makerId = Maker.where(email: "demo@ecocube.io").first.id
     end
 
-    @sensors = Sensor.all
+    @sensors = Sensor.where(maker_id: makerId)
     @sensor = Sensor.find(params[:id])
 
     if(params[:compare_graph] != nil)
