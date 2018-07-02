@@ -47,3 +47,7 @@
   .parallax img { width: 100%; }
 
   .parallax-container { width: 100%;}
+
+  .map {
+    height: 100%;
+  }

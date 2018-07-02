@@ -2,24 +2,34 @@ class MapController < ApplicationController
 
     before_action :build_sensor_map
     before_action :build_sensor_measure_map
-    before_action :require_user
     
 
 def index
-    @sensor = Sensor.first
+    # Let's give people a demo account so they can see what it's all about
+    demo_account = Maker.where(email: "demo@ecocube.io").first
+
+    if(current_user != nil)
+     @sensors = Sensor.where(maker_id: current_user)
+    else
+      @sensors = Sensor.where(maker_id: demo_account.id )
+      flash[:demo] = "Demo Dashboard. These are actual sensor readings in a 
+                      remote location on the river bank of a small Irish village.
+                      Demo accounts cannot edit existing sensors"
+    end
+
 end
 
 
 def build_sensor_map
-    @sensor_class = Hash.new
-    @sensor_class["Temperature"] = "fa fa-thermometer-3 fa-5x"
-    @sensor_class["Humidity"] = "wi wi-humidity fa-5x"
-    @sensor_class["Pressure"] = "wi wi-barometer fa-5x"
-    @sensor_class["Soil Moisture"] = "wi wi-flood fa-5x"
-    @sensor_class["Air Quality"] = "wi wi-dust fa-5x"
-    @sensor_class["UV Index"] = "wi wi-hot fa-5x"
-    @sensor_class["Rainfall"] = "wi wi-umbrella fa-5x"
-    @sensor_class["Windspeed"] = "wi wi-strong-wind fa-5x"
+    @sensor_image = Hash.new
+    @sensor_image["Temperature"] = "https://png.icons8.com/material/1600/thermometer-automation.png"
+    @sensor_image["Humidity"] = "https://png.icons8.com/material/1600/moisture.png"
+    @sensor_image["Pressure"] = "https://png.icons8.com/material/1600/pressure.png"
+    @sensor_image["Soil Moisture"] = "https://png.icons8.com/material/1600/sprout.png"
+    @sensor_image["Air Quality"] = "https://png.icons8.com/material/1600/air-quality.png"
+    @sensor_image["UV Index"] = "https://png.icons8.com/material/1600/do-not-expose-to-sunlight.png"
+    @sensor_image["Rainfall"] = "https://png.icons8.com/material/1600/heavy-rain.png"
+    @sensor_image["Windspeed"] = "https://png.icons8.com/material/1600/air.png"
 
   end
 
@@ -35,5 +45,7 @@ def build_sensor_map
     @sensor_measure["Windspeed"] = "km/h"
 
   end
+
+
 
 end

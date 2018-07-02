@@ -2,56 +2,65 @@
 <%= render 'shared/nav_side' %>
 <%= render 'shared/flash'%>
 
+<div class="container" style="height:100%">
+<div id="map" style="height:800px"></div>
+
+<% sensor = @sensors.where(sensor_type: 'Temperature').first %>
 
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHgCyXOs3odEVeKkTz92qEOwxHgTm5xQE" data-turbolinks-eval="false"></script>
 
-<div id="map" class="map-format"></div>
-    <script>
-        var myLatlng = new google.maps.LatLng(53.192821,-6.1714228);
+<script>
+        var myLatlng = new google.maps.LatLng(53.198146, -6.179670);
         var mapOptions = {
         zoom: 13,
         center: myLatlng,
         mapTypeId: 'terrain'
         }
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-        var image = '';
-        var contentString = 
-            ' <div class="col-lg-3 col-md-6">' +
-                ' <!-- START panel-->' +
-                ' <div class="panel panel-light map-info-panel">' +
-                    ' <div class="panel-heading">' +
-                        ' <div class="row">' +
-                            ' <div class="col-xs-3">' +
-                                ' <%= link_to "", {controller: "sensors", action: "index"}, class: @sensor_class[@sensor.sensor_type] %>' +
-                            ' </div>' +
-                            ' <div class="col-xs-9 text-right">' +
-                                ' <div class="text-lg"><%= @sensor.property_value %> <%=raw @sensor_measure[@sensor.sensor_type] %></div>' +
-                                ' <p class="m0"><%= @sensor.name %> </p>' +
-                            ' </div>' +
-                        ' </div>' +
-                        ' <!-- END row -->' +
-                    ' </div>' +
-                    ' <!-- END panel-heading -->' +
-                    ' <a href="/charts" class="panel-footer bg-gray-light bt0 clearfix btn-block">' +
-                        ' <span class="pull-left">View Details</span>' +
-                        ' <span class="pull-right">' +
-                            ' <em class="fa fa-bar-chart"></em>' +
-                        ' </span>' +
-                    ' </a>' +
-                ' </div>' +
-                ' <!-- END panel-light-->' +
-            ' </div>' +
-            ' <!-- END bootstrap class -->';
 
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        var image = {
+          url: '/images/circle.svg',
+          // This marker is 20 pixels wide by 32 pixels high.
+          size: new google.maps.Size(80, 80),
+          // The origin for this image is (0, 0).
+          origin: new google.maps.Point(0, 0),
+          // The anchor for this image is the base of the flagpole at (0, 32).
+          anchor: new google.maps.Point(0, 70)
+        };
+        var contentString = 
+                ' <div class="col s4 m4">' +
+                ' <div class="card horizontal">' +
+                    ' <div class="card-image">' +
+                            ' <a href="/charts/<%= sensor.id %>">' +
+                                ' <img src="<%=raw @sensor_image[sensor.sensor_type] %>">' +
+                           '  </a>' +
+                    ' </div>' +
+                    ' <div class="card-stacked">' +
+                    ' <div class="card-content">' +
+                    ' <h5><%= sensor.property_value %> <%=raw @sensor_measure[sensor.sensor_type] %></h5>' +
+                    ' <br>' +
+                    ' <p><%= sensor.name %></p>' +
+                    ' </div>' +
+                    ' <div class="card-action">' +
+                    ' <% if (current_user != nil) %>' +
+                            ' <a href="/sensors/<%=raw sensor.id %>/edit">Edit</a>' +
+                    ' <% end %>' +
+                    ' <a href="/charts/<%= sensor.id %>">Graph</a>' +
+                    ' </div>' +
+                    ' </div>' +
+                ' </div>' +
+                ' </div>';
 
         var infowindow = new google.maps.InfoWindow({
-          content: contentString
+          content: contentString,
+          maxWidth: 200
         });
 
         var marker = new google.maps.Marker({
             position: myLatlng,
             title:"Kitchen Temperature",
+            label: {text: '<%= sensor.property_value %>', color: "white", style: "bold"},
             icon: image
         });
         marker.addListener('click', function() {
@@ -62,6 +71,17 @@
         marker.setMap(map);
     </script>
 
+
+
+
+<!--
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHgCyXOs3odEVeKkTz92qEOwxHgTm5xQE&callback=initMap">
+    </script>
+    -->
+
+
+</div>
 
 <script>
         $(document).ready(function(){
