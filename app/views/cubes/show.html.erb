@@ -1,0 +1,78 @@
+<%= render 'shared/nav_top' %>
+<%= render 'shared/flash'%>
+<%= render 'shared/nav_side' %>
+
+
+      <div class="container">
+        <!-- Page Content goes here -->
+
+        <div class="row" align="center">
+        <H2> <%= @cube.name %></H2>
+        </div>
+
+        <div class="row">
+
+
+
+<% if @sensors.empty? %>
+      <div class="col m4 s12">
+            <div class="card horizontal">
+                  <div class="card-image">
+                        <a href="/sensors/new %>">
+                              <img src="https://png.icons8.com/material/1600/thermometer-automation.png">
+                        </a>
+                  </div>
+                  <div class="card-stacked">
+                  <div class="card-content">
+                  <h5>Add First Sensor</h5>
+                  <br>
+
+                  </div>
+                  <div class="card-action">
+                  <a href="/sensors/new">Add</a>
+                  </div>
+                  </div>
+            </div>
+      </div>
+
+<% end %>
+
+<% @sensors.each do |sensor| %>
+
+<% 
+  image_location = "";
+
+
+%>
+
+      <div class="col m4 s12">
+            <div class="card horizontal">
+                  <div class="card-image">
+                        <a href="/charts/<%= sensor.id %>">
+                              <img src="<%=raw @sensor_image[sensor.sensor_type] %>">
+                        </a>
+                  </div>
+                  <div class="card-stacked">
+                  <div class="card-content">
+                  <h5><%= sensor.property_value %> <%=raw @sensor_measure[sensor.sensor_type] %></h5>
+                  <br>
+                  <p><%= sensor.name %></p>
+                  </div>
+                  <div class="card-action">
+                  <% if (current_user != nil) %>
+                        <a href="/sensors/<%=raw sensor.id %>/edit">Edit</a>
+                  <% end %>
+                  <a href="/charts/<%= sensor.id %>">Graph</a>
+                  </div>
+                  </div>
+            </div>
+      </div>
+
+<% end %>
+
+
+<script>
+        $(document).ready(function(){
+    $('.sidenav').sidenav();
+  });
+ </script>

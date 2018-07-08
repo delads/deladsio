@@ -13,7 +13,8 @@ Rails.application.routes.draw do
   resources :makers
   resources :map
   resources :charts
-  resources  :triggers
+  resources :triggers
+  resources :cubes
 
   
   get '/dashboard' => 'dashboard#index'
@@ -23,6 +24,7 @@ Rails.application.routes.draw do
   get '/payment' => 'payment#index'
   post '/addcreditcard' => 'payment#addcreditcard'
   get '/deletecreditcard' => 'payment#deletecreditcard'
+  get '/registercube' => 'cubes#register'
 
   get '/login', to: "logins#new"
   post '/login', to: "logins#create"
@@ -31,6 +33,7 @@ Rails.application.routes.draw do
   get '/register', to: 'makers#new'
   get '/sensors/:id/destroy', to: 'sensors#destroy'
   get '/triggers/:id/destroy', to: 'triggers#destroy'
+  get '/cubes/:id/destroy', to: 'cubes#destroy'
 
   get '/makers/:id/destroy', to: 'makers#destroy'
 

@@ -1,0 +1,21 @@
+<%= render 'shared/nav_top' %>
+<%= render 'shared/flash'%>
+
+
+<div class="container">
+            <!-- Page Content goes here -->
+            <div class="section">
+                <h3>Register a Cube</h3>
+            </div>
+
+    <div class="row">
+        <div class="well col-md-8 col-md-offset-2">
+            <form action="/cubes/registerSubmit">
+            Cube ID <br>
+            <input type="text" name="sigfox_id">
+            <button class="btn btn-success" type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+</div>

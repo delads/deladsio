@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
 
-  before_action :build_sensor_map
+  before_action :build_sensor_image_map
   before_action :build_sensor_measure_map
   # before_action :require_user
   before_action :set_maker
@@ -20,7 +20,7 @@ class DashboardController < ApplicationController
     end
   end
 
-  def build_sensor_map
+  def build_sensor_image_map
     @sensor_image = Hash.new
     @sensor_image["Temperature"] = "https://png.icons8.com/material/1600/thermometer-automation.png"
     @sensor_image["Humidity"] = "https://png.icons8.com/material/1600/moisture.png"

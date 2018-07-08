@@ -1,0 +1,26 @@
+<div class="container">
+<%= render 'shared/errors', obj: @cube %>
+
+<div class="row container">
+  <div class="well col-md-8 col-md-offset-2">
+    <%= form_for(@cube, html: { multipart: true }) do |f| %>
+        <%= f.label "Cube Name" %>
+        <%= f.text_field :name %>
+
+        <%= f.label "Board ID" %>
+        <%= f.text_field :board_id %>
+        
+        <%= f.label "Sigfox ID" %>
+        <%= f.text_field :sigfox_id %>
+
+        <%= f.label "Maker ID" %>
+        <%= f.text_field :maker_id %>
+
+        <%= f.label "Provisioned" %>
+        <%= f.text_field :provisioned %>
+
+      <%= f.submit(@cube.new_record? ? 'Create' : 'Update', class: "btn btn-success") %>
+    <% end %>
+  </div>
+</div>
+</div>

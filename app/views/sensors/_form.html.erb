@@ -9,22 +9,15 @@
   
   <div class="well col-md-4 col-md-offset-4">
     <%= form_for(@sensor, html: { multipart: true }) do |s| %>
+
+    <%= s.label :cube_id %>
+    <%= s.select :cube_id, @cubes.all.collect { |c| [ c.name, c.id ] }, include_blank: true %>
+    <br>
+
+
+
       <%= s.label :name %>
       <%= s.text_field :name %>
-
-      
-
-      <%= s.label :namespace %>
-      <%= s.text_field :namespace %>
-      
-      <%= s.label :mqtt_token %>
-      <%= s.text_field :mqtt_token %>
-      
-      <%= s.label :mqtt_topic %>
-      <%= s.text_field :mqtt_topic %>
-
-      <%= s.label :sigfox_name %>
-      <%= s.text_field :sigfox_name %>
 
       <%= s.label :altitude %>
       <%= s.text_field :altitude %>
@@ -32,15 +25,14 @@
       <%= s.label :sensor_type %>
       <%= s.select :sensor_type,
           [ 'Temperature', 
-            'Quality', 
             'Humidity', 
             'Pressure', 
-            'Soil Moisture', 
-            'UV Index', 
-            'Rainfall', 
-            'Windspeed', 
-            'Elevation' ] %>  
-      
+            'WaterproofTemperature', 
+            'Moisture', 
+            'LightIntensity', 
+            'AirQuality'] %>  
+
+
      
       <%= s.submit(@sensor.new_record? ? 'Create Sensor' : 'Edit Sensor', class: "btn btn-success") %>
       <div class="btn btn-success white"><%= link_to 'Delete', "/sensors/#{@sensor.id}/destroy" %></div>

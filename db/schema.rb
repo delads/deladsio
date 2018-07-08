@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_20_004140) do
+ActiveRecord::Schema.define(version: 2018_07_07_191952) do
+
+  create_table "cubes", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "default_graph"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "board_id"
+    t.string "sigfox_id"
+    t.string "maker_id"
+    t.boolean "provisioned"
+  end
 
   create_table "makers", force: :cascade do |t|
     t.string "makername"
@@ -63,17 +75,14 @@ ActiveRecord::Schema.define(version: 2018_06_20_004140) do
 
   create_table "sensors", force: :cascade do |t|
     t.float "property_value"
-    t.string "namespace"
-    t.string "mqtt_token"
-    t.string "mqtt_topic"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
     t.integer "maker_id"
-    t.string "ifttt"
     t.string "sensor_type"
-    t.string "sigfox_name"
+    t.string "ardunio_id"
     t.string "altitude"
+    t.string "cube_id"
   end
 
   create_table "time_series", force: :cascade do |t|

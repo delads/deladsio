@@ -16,7 +16,7 @@ class LoginsController < ApplicationController
         redirect_to session[:return_to]
         
       else
-        redirect_to dashboard_path
+        redirect_to maker_path(maker)
       end
       
     else

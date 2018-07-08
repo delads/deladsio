@@ -8,6 +8,37 @@
   <div class="row">
   <div class="col m8 offset-m2">
     <!-- Page Content goes here -->
+
+    <div class="section">
+      <h3>Registered Cubes</h3>
+    </div>
+
+
+    <div class="row">
+      <table class="highlight">
+          <thead>
+          <tr>
+              <th>Cube ID</th>
+              <th>Cube Name</th>
+              <th>Cube Description</th>
+          </tr>
+          </thead>
+
+          <tbody>
+
+          <% @cubes.each do |cube|%>
+            <tr>
+                <td><a href="/cubes/<%= cube.id%>"><%= cube.id %></td>
+                <td><%= cube.name %></td>
+                <td><%= cube.description %></td>
+            </tr>
+          <% end %>
+
+          </tbody>
+      </table>
+    </div>
+
+
     <div class="section">
       <h3>Account Information</h3>
     </div>

@@ -27,12 +27,12 @@ class ApisController < ApplicationController
     #data = hex_data 
 
     tokens = data.split("_")
-    io_customer_id = tokens[0]
+    io_board_id = tokens[0]
     io_sensor_id = tokens[1]
     io_property_value_in = tokens[2]
     io_property_value_out = io_property_value_in
 
-    sensors = Sensor.where(sigfox_name: io_customer_id + '-' + io_sensor_id)
+    sensors = Sensor.where(arduino_id: io_board_id + '-' + io_sensor_id)
     sensors.each{ |sensor|
 
       # If this is a pressure sensor, then the raw value will be the
@@ -123,39 +123,6 @@ class ApisController < ApplicationController
 
   end
 
-
-# Legacy API calls
-
-
-  def listthermostats
-     render json: @maker.thermostats
-    
-  end
-  
-  def describemaker
-    render json: @maker
-  end
-
-  
-  def settemperature
-     params[:id]
-     
-      thermostat = Thermostat.find(params[:id])
-      target_temp = params[:target_temperature]
-      thermostat.update_attribute(:max_temperature, target_temp)
-      
-      user = thermostat.mqtt_user
-      password = thermostat.mqtt_password
-      
-      
-      client = MQTT::Client.connect('mqtt://' + user + ':' + password + '@broker.shiftr.io')
-      client.publish("max_temp",target_temp,true)
-      client.disconnect()
-      
- 
-      render json: thermostat
-    
-  end
   
   
   private

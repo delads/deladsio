@@ -2,8 +2,9 @@ class SensorsController < ApplicationController
 before_action :set_sensor, only: [ :update, :show, :like, :destroy]
 before_action :require_same_user, only: [ :update]
 before_action :set_maker, only: [:show, :destroy]
-before_action :build_sensor_map
+before_action :build_sensor_image_map
 before_action :require_user
+before_action :list_available_cubes
 
     
     def index
@@ -70,7 +71,7 @@ before_action :require_user
     
   
     def sensor_params
-      params.require(:sensor).permit(:name, :sensor_type, :namespace, :mqtt_token, :mqtt_topic, :sigfox_name, :altitude)
+      params.require(:sensor).permit(:name, :sensor_type, :altitude, :cube_id)
     end
     
     def set_sensor
@@ -81,6 +82,10 @@ before_action :require_user
     def set_maker
       @maker = @sensor.maker
     end
+
+    def list_available_cubes
+      @cubes = Cube.where(maker_id: current_user.id)
+    end
     
     
     def require_same_user
@@ -90,12 +95,23 @@ before_action :require_user
       end
     end
 
-    def build_sensor_map
-      @sensor_class = Hash.new
-      @sensor_class["Temperature"] = "fa fa-thermometer-3 fa-5x"
-      @sensor_class["Humidity"] = "wi wi-humidity fa-5x"
-      @sensor_class["Pressure"] = "wi wi-barometer fa-5x"
+    def build_sensor_image_map
+      @sensor_images = Hash.new
+      @sensor_images["Temperature"] = "fa fa-thermometer-3 fa-5x"
+      @sensor_images["Humidity"] = "wi wi-humidity fa-5x"
+      @sensor_images["Pressure"] = "wi wi-barometer fa-5x"
     end
 
 
+    def build_sensor_naming_map
+      @sensor_naming = Hash.new
+      @sensor_naming["Temerature"] = "01"
+      @sensor_naming["Humidity"] = "02"
+      @sensor_naming["Pressure"] = "03"
+      @sensor_naming["WaterproofTemerature"] = "04"
+      @sensor_naming["Moisture"] = "05"
+      @sensor_naming["LightIntensity"] = "06"
+      @sensor_naming["AirQuality"] = "07"
+
+    end
 end

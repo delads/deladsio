@@ -1,0 +1,53 @@
+<%= render 'shared/nav_top' %>
+<%= render 'shared/nav_side' %>
+<%= render 'shared/flash'%>
+
+<div class="container">
+    <div class="row">
+        <table>
+            <thead>
+            <tr>
+                <th>Cube ID</th>
+                <th>Cube Name</th>
+                <th>Board ID</th>
+                <th>Sigfox ID</th>
+                <th>Maker ID</th>
+                <th>Maker email</th>
+                <th>Provisioned</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <% @cubes.each do |cube|%>
+            <tr>
+                <td><%= cube.id %></td>
+                <td><%= cube.name %></td>
+                <td><%= cube.board_id %></td>
+                <td><a href="https://backend.sigfox.com/device/list" target="new"><%= cube.sigfox_id %></a></td>
+                <td><a href="/makers/<%= cube.maker_id %>" target="new"><%= cube.maker_id %></td>
+
+                
+                <% if cube.maker_id != nil && cube.maker_id != ''%>
+                    <% maker = @makers.find(cube.maker_id) %>
+                    <td><%= maker.email %></td>
+                <% else %>
+                    <td>N/A</td>
+                <% end %>
+                <td><%= cube.provisioned %></td>
+                <td><a href="/cubes/<%= cube.id %>/edit">Edit</a> / 
+                    <a href="/cubes/<%= cube.id %>/destroy">Delete</a> </td>
+            </tr>
+            <% end %>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <a class="waves-effect waves-light btn" href="/cubes/new">Add</a>
+    </div>
+
+
+
+</div>

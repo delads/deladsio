@@ -92,6 +92,8 @@ class MakersController < ApplicationController
   
   def show
 
+    @cubes = Cube.where(maker_id: params[:id])
+
     @sensors = @maker.sensors
     stripe_customer_id = @maker.stripe_customer_id
 
