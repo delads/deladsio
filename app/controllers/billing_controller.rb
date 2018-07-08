@@ -22,7 +22,7 @@ class BillingController < ApplicationController
           @extra_subscriptions = @number_of_extra_cubes * 5
       end
 
-      @total_subscription_price = (20 + @extra_subscriptions) 
+      @total_subscription_price = (6 + @extra_subscriptions) 
       @total_price = @total_cube_price + @total_subscription_price
 
     end

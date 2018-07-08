@@ -4,12 +4,10 @@
         <a href="/" class="brand-logo">&nbsp;ecocube.io</a>
         <ul class="right hide-on-med-and-down">
 
-            <% if current_user != nil %>
-                <li><a href="/dashboard">Dashboard</a></li>
-            <% else %>
-                <li><a href="/dashboard">Demo Dashboard</a></li>
+            <% if current_user == nil %>
+                <li><a href="/cubes/1">Example Cube</a></li>
             <% end %>
-
+            
             <li><a href="/billing">Pricing (test mode) </a></li>
 
             <% if current_user != nil %>
@@ -26,10 +24,8 @@
 
 
       <ul class="sidenav" id="mobile-demo">
-            <% if current_user != nil %>
-                <li><a href="/dashboard">Dashboard</a></li>
-            <% else %>
-                <li><a href="/dashboard">Demo Dashboard</a></li>
+            <% if current_user == nil %>
+                <li><a href="/cubes/1">Example Cube</a></li>
             <% end %>
             <li><a href="/billing">Pricing (test mode)</a></li>
             <% if current_user != nil %>

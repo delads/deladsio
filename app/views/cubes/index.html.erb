@@ -22,7 +22,7 @@
 
             <% @cubes.each do |cube|%>
             <tr>
-                <td><%= cube.id %></td>
+                <td><a href="/cubes/<%= cube.id %>"><%= cube.id %></a></td>
                 <td><%= cube.name %></td>
                 <td><%= cube.board_id %></td>
                 <td><a href="https://backend.sigfox.com/device/list" target="new"><%= cube.sigfox_id %></a></td>
