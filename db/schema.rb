@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_07_191952) do
+ActiveRecord::Schema.define(version: 2018_07_09_202742) do
 
   create_table "cubes", force: :cascade do |t|
     t.string "name"
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 2018_07_07_191952) do
     t.string "name"
     t.integer "maker_id"
     t.string "sensor_type"
-    t.string "ardunio_id"
+    t.string "arduino_id"
     t.string "altitude"
     t.string "cube_id"
   end
