@@ -3,6 +3,8 @@ before_action :set_sensor, only: [ :update, :show, :like, :destroy]
 before_action :require_same_user, only: [ :update]
 before_action :set_maker, only: [:show, :destroy]
 before_action :build_sensor_image_map
+before_action :build_sensor_naming_map
+before_action :build_sensor_measure_map
 before_action :require_user
 before_action :list_available_cubes
 
@@ -37,7 +39,11 @@ before_action :list_available_cubes
     def create
         @sensor = Sensor.new(sensor_params)
         @sensor.maker = current_user
-     
+
+        cube = Cube.where(maker_id: current_user).first
+        @sensor.arduino_id = cube.board_id.to_s + '-' + @sensor_naming[sensor_params[:sensor_type]].to_s
+        puts cube.board_id.to_s + '-' + @sensor_naming[sensor_params[:sensor_type]].to_s
+  
         if @sensor.save
           flash[:success] = "Your sensor was created: " 
           redirect_to dashboard_path
@@ -50,7 +56,14 @@ before_action :list_available_cubes
 
     
     def update
-        if @sensor.update(sensor_params)       
+
+        cube = Cube.where(maker_id: current_user).first
+        @sensor.arduino_id = cube.board_id.to_s + '-' + @sensor_naming[sensor_params[:sensor_type]].to_s
+        puts cube.board_id.to_s + '-' + @sensor_naming[sensor_params[:sensor_type]].to_s
+        @sensor.save
+
+        if @sensor.update(sensor_params)   
+
           flash[:success] = "Your sensor was updated successfully!"
           redirect_to dashboard_path
         else
@@ -96,22 +109,38 @@ before_action :list_available_cubes
     end
 
     def build_sensor_image_map
-      @sensor_images = Hash.new
-      @sensor_images["Temperature"] = "fa fa-thermometer-3 fa-5x"
-      @sensor_images["Humidity"] = "wi wi-humidity fa-5x"
-      @sensor_images["Pressure"] = "wi wi-barometer fa-5x"
+      @sensor_image = Hash.new
+      @sensor_image["Temperature"] = "https://png.icons8.com/material/1600/thermometer-automation.png"
+      @sensor_image["Humidity"] = "https://png.icons8.com/material/1600/moisture.png"
+      @sensor_image["Pressure"] = "https://png.icons8.com/material/1600/pressure.png"
+      @sensor_image["WaterproofTemperature"] = "https://png.icons8.com/material/1600/thermometer-automation.png"
+      @sensor_image["SoilMoisture"] = "https://png.icons8.com/material/1600/watering-can.png"
+      @sensor_image["LightIntensity"] = "https://png.icons8.com/material/1600/do-not-expose-to-sunlight.png"
+      @sensor_image["AirQuality"] = "https://png.icons8.com/material/1600/air-quality.png"
     end
 
 
     def build_sensor_naming_map
       @sensor_naming = Hash.new
-      @sensor_naming["Temerature"] = "01"
+      @sensor_naming["Temperature"] = "01"
       @sensor_naming["Humidity"] = "02"
       @sensor_naming["Pressure"] = "03"
-      @sensor_naming["WaterproofTemerature"] = "04"
-      @sensor_naming["Moisture"] = "05"
+      @sensor_naming["WaterproofTemperature"] = "04"
+      @sensor_naming["SoilMoisture"] = "05"
       @sensor_naming["LightIntensity"] = "06"
       @sensor_naming["AirQuality"] = "07"
 
+    end
+
+    def build_sensor_measure_map
+      @sensor_measure = Hash.new
+      @sensor_measure["Temperature"] = "&deg;C"
+      @sensor_measure["Humidity"] = "%"
+      @sensor_measure["Pressure"] = "hPa"
+      @sensor_measure["WaterproofTemperature"] = "&deg;C"
+      @sensor_measure["SoilMoisture"] = ""
+      @sensor_measure["LightIntensity"] = ""
+      @sensor_measure["Air Quality"] = ""
+  
     end
 end

@@ -25,24 +25,22 @@ class DashboardController < ApplicationController
     @sensor_image["Temperature"] = "https://png.icons8.com/material/1600/thermometer-automation.png"
     @sensor_image["Humidity"] = "https://png.icons8.com/material/1600/moisture.png"
     @sensor_image["Pressure"] = "https://png.icons8.com/material/1600/pressure.png"
-    @sensor_image["Soil Moisture"] = "https://png.icons8.com/material/1600/sprout.png"
-    @sensor_image["Air Quality"] = "https://png.icons8.com/material/1600/air-quality.png"
-    @sensor_image["UV Index"] = "https://png.icons8.com/material/1600/do-not-expose-to-sunlight.png"
-    @sensor_image["Rainfall"] = "https://png.icons8.com/material/1600/heavy-rain.png"
-    @sensor_image["Windspeed"] = "https://png.icons8.com/material/1600/air.png"
+    @sensor_image["WaterproofTemperature"] = "https://png.icons8.com/material/1600/thermometer-automation.png"
+    @sensor_image["SoilMoisture"] = "https://png.icons8.com/material/1600/watering-can.png"
+    @sensor_image["LightIntensity"] = "https://png.icons8.com/material/1600/do-not-expose-to-sunlight.png"
+    @sensor_image["AirQuality"] = "https://png.icons8.com/material/1600/air-quality.png"
 
   end
 
   def build_sensor_measure_map
-    @sensor_measure = Hash.new
-    @sensor_measure["Temperature"] = "&deg;C"
-    @sensor_measure["Humidity"] = "%"
-    @sensor_measure["Pressure"] = "hPa"
-    @sensor_measure["Soil Moisture"] = ""
-    @sensor_measure["Air Quality"] = ""
-    @sensor_measure["UV Index"] = "mW/m2"
-    @sensor_measure["Rainfall"] = "mm"
-    @sensor_measure["Windspeed"] = "km/h"
+   @sensor_measure = Hash.new
+      @sensor_measure["Temperature"] = "&deg;C"
+      @sensor_measure["Humidity"] = "%"
+      @sensor_measure["Pressure"] = "hPa"
+      @sensor_measure["WaterproofTemperature"] = "&deg;C"
+      @sensor_measure["SoilMoisture"] = ""
+      @sensor_measure["LightIntensity"] = ""
+      @sensor_measure["Air Quality"] = ""
 
   end
 
