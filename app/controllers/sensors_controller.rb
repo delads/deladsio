@@ -40,7 +40,7 @@ before_action :list_available_cubes
         @sensor = Sensor.new(sensor_params)
         @sensor.maker = current_user
 
-        cube = Cube.where(maker_id: current_user).first
+        cube = Cube.find(sensor_params[:cube_id])
         @sensor.arduino_id = cube.board_id.to_s + '-' + @sensor_naming[sensor_params[:sensor_type]].to_s
         puts cube.board_id.to_s + '-' + @sensor_naming[sensor_params[:sensor_type]].to_s
   
@@ -57,7 +57,7 @@ before_action :list_available_cubes
     
     def update
 
-        cube = Cube.where(maker_id: current_user).first
+        cube = Cube.find(sensor_params[:cube_id])
         @sensor.arduino_id = cube.board_id.to_s + '-' + @sensor_naming[sensor_params[:sensor_type]].to_s
         puts cube.board_id.to_s + '-' + @sensor_naming[sensor_params[:sensor_type]].to_s
         @sensor.save
