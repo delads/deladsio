@@ -75,7 +75,7 @@ before_action :list_available_cubes
     
     def destroy
         sensor_id = params[:id]
-        TimeSeries.where("sensor_id" == sensor_id).delete_all
+        TimeSeries.where(sensor_id: sensor_id).delete_all
         Sensor.find(sensor_id).destroy
         flash[:success] = "Sensor deleted"
         redirect_to dashboard_path
