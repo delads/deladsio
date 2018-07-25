@@ -23,8 +23,8 @@ class DashboardController < ApplicationController
   def build_sensor_image_map
     @sensor_image = Hash.new
     @sensor_image["Temperature"] = "https://png.icons8.com/material/1600/thermometer-automation.png"
-    @sensor_image["Humidity"] = "https://png.icons8.com/material/1600/moisture.png"
     @sensor_image["Pressure"] = "https://png.icons8.com/material/1600/pressure.png"
+    @sensor_image["Humidity"] = "https://png.icons8.com/material/1600/moisture.png" 
     @sensor_image["WaterproofTemperature"] = "https://png.icons8.com/material/1600/thermometer-automation.png"
     @sensor_image["SoilMoisture"] = "https://png.icons8.com/material/1600/watering-can.png"
     @sensor_image["LightIntensity"] = "https://png.icons8.com/material/1600/do-not-expose-to-sunlight.png"
@@ -35,8 +35,8 @@ class DashboardController < ApplicationController
   def build_sensor_measure_map
    @sensor_measure = Hash.new
       @sensor_measure["Temperature"] = "&deg;C"
-      @sensor_measure["Humidity"] = "%"
       @sensor_measure["Pressure"] = "hPa"
+      @sensor_measure["Humidity"] = "%"  
       @sensor_measure["WaterproofTemperature"] = "&deg;C"
       @sensor_measure["SoilMoisture"] = ""
       @sensor_measure["LightIntensity"] = ""

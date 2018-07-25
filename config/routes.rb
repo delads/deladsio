@@ -43,5 +43,6 @@ Rails.application.routes.draw do
   get '/api/setsensorpropertyvalue' => "apis#setsensorpropertyvalue"
   get '/api/setsigfoxsensorvalue' => "apis#setsigfoxsensorvalue"
   get '/api/createtimeseries' => "apis#createtimeseries"
+  get '/api/testhttprequest' => "apis#testhttprequest"
 
 end

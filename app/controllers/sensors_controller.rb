@@ -111,8 +111,8 @@ before_action :list_available_cubes
     def build_sensor_image_map
       @sensor_image = Hash.new
       @sensor_image["Temperature"] = "https://png.icons8.com/material/1600/thermometer-automation.png"
-      @sensor_image["Humidity"] = "https://png.icons8.com/material/1600/moisture.png"
       @sensor_image["Pressure"] = "https://png.icons8.com/material/1600/pressure.png"
+      @sensor_image["Humidity"] = "https://png.icons8.com/material/1600/moisture.png"
       @sensor_image["WaterproofTemperature"] = "https://png.icons8.com/material/1600/thermometer-automation.png"
       @sensor_image["SoilMoisture"] = "https://png.icons8.com/material/1600/watering-can.png"
       @sensor_image["LightIntensity"] = "https://png.icons8.com/material/1600/do-not-expose-to-sunlight.png"
@@ -123,8 +123,8 @@ before_action :list_available_cubes
     def build_sensor_naming_map
       @sensor_naming = Hash.new
       @sensor_naming["Temperature"] = "01"
-      @sensor_naming["Humidity"] = "02"
-      @sensor_naming["Pressure"] = "03"
+      @sensor_naming["Pressure"] = "02"
+      @sensor_naming["Humidity"] = "03"
       @sensor_naming["WaterproofTemperature"] = "04"
       @sensor_naming["SoilMoisture"] = "05"
       @sensor_naming["LightIntensity"] = "06"
@@ -135,8 +135,8 @@ before_action :list_available_cubes
     def build_sensor_measure_map
       @sensor_measure = Hash.new
       @sensor_measure["Temperature"] = "&deg;C"
-      @sensor_measure["Humidity"] = "%"
       @sensor_measure["Pressure"] = "hPa"
+      @sensor_measure["Humidity"] = "%"
       @sensor_measure["WaterproofTemperature"] = "&deg;C"
       @sensor_measure["SoilMoisture"] = ""
       @sensor_measure["LightIntensity"] = ""

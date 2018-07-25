@@ -138,8 +138,8 @@ class CubesController < ApplicationController
       def build_sensor_naming_map
         @sensor_naming = Hash.new
         @sensor_naming["Temperature"] = "01"
-        @sensor_naming["Humidity"] = "02"
-        @sensor_naming["Pressure"] = "03"
+        @sensor_naming["Pressure"] = "02"
+        @sensor_naming["Humidity"] = "03"
         @sensor_naming["WaterproofTemperature"] = "04"
         @sensor_naming["SoilMoisture"] = "05"
         @sensor_naming["LightIntensity"] = "06"
@@ -150,8 +150,8 @@ class CubesController < ApplicationController
       def build_sensor_measure_map
         @sensor_measure = Hash.new
         @sensor_measure["Temperature"] = "&deg;C"
-        @sensor_measure["Humidity"] = "%"
         @sensor_measure["Pressure"] = "hPa"
+        @sensor_measure["Humidity"] = "%"  
         @sensor_measure["WaterproofTemperature"] = "&deg;C"
         @sensor_measure["SoilMoisture"] = ""
         @sensor_measure["LightIntensity"] = ""

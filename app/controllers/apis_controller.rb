@@ -16,6 +16,24 @@ class ApisController < ApplicationController
     
   end
 
+  def testhttprequest
+
+    require 'net/http'
+
+    wellformedURI = "http://google.com"
+            
+    puts wellformedURI
+
+    uri = URI.parse(wellformedURI)
+    req = Net::HTTP::Get.new(uri, 'Content-Type' => 'application/json')
+    res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+      http.request(req)
+    end
+
+    render json: res.body
+
+  end
+
   def setsigfoxsensorvalue
 
     #example data = 001-01-19.5 in the format of custId-SensorId-PropertyValue
@@ -33,7 +51,7 @@ class ApisController < ApplicationController
     io_property_value_out = io_property_value_in
 
     sensors = Sensor.where(arduino_id: io_board_id + '-' + io_sensor_id)
-    sensors.each{ |sensor|
+    sensors.each do |sensor|
 
       # If this is a pressure sensor, then the raw value will be the
       # absolute pressure value at the current elevation. To calculate
@@ -83,6 +101,8 @@ class ApisController < ApplicationController
 
           if (trigger.webhook_url != nil)
 
+            require 'net/http'
+
             wellformedURI = trigger.webhook_url.gsub(' ','%20')
             
             puts wellformedURI
@@ -102,7 +122,7 @@ class ApisController < ApplicationController
       end
 
 
-    }
+    end
 
     render json: sensors
 

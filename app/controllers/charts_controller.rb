@@ -17,8 +17,11 @@ class ChartsController < ApplicationController
       makerId = Maker.where(email: "demo@ecocube.io").first.id
     end
 
-    @sensors = Sensor.where(maker_id: makerId)
     @sensor = Sensor.find(params[:id])
+    cube_id = @sensor.cube_id
+
+    @sensors = Sensor.where(maker_id: makerId, cube_id: cube_id)
+    
 
     if(params[:compare_graph] != nil)
       @sensorCompare = Sensor.find(params[:compare_graph])
