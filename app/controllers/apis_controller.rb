@@ -20,18 +20,19 @@ class ApisController < ApplicationController
 
     require 'net/http'
 
-    wellformedURI = "http://google.com"
-            
+    # wellformedURI = trigger.webhook_url.gsub(' ','%20')
+    wellformedURI = "http://maker.ifttt.com/trigger/garden/with/key/mK46h__ZaBU1agxS79FZ0XXgKjqyrXPVllTyijE_gfM"
+    
     puts wellformedURI
 
     uri = URI.parse(wellformedURI)
-    req = Net::HTTP::Get.new(uri, 'Content-Type' => 'application/json')
+    req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+   #  req.body = {'Value1'=> "Trigger Name", 'Value2' => "output value", 'Value3' => 3}.to_json
     res = Net::HTTP.start(uri.hostname, uri.port) do |http|
       http.request(req)
     end
 
-    render json: res.body
-
+    render json: res.body 
   end
 
   def setsigfoxsensorvalue
@@ -48,7 +49,7 @@ class ApisController < ApplicationController
     io_board_id = tokens[0]
     io_sensor_id = tokens[1]
     io_property_value_in = tokens[2]
-    io_property_value_out = io_property_value_in
+    io_property_value_out = io_property_value_in.to_f
 
     sensors = Sensor.where(arduino_id: io_board_id + '-' + io_sensor_id)
     sensors.each do |sensor|
@@ -63,7 +64,7 @@ class ApisController < ApplicationController
         # Formula is 
         # rPresure = absPressure + altitude/8.3
         
-        io_property_value_out = (io_property_value_in.to_f + (sensor.altitude.to_f/8.3)).to_i
+        io_property_value_out = (io_property_value_in.to_f + (sensor.altitude.to_f/8.3))
 
       end
 
@@ -88,8 +89,8 @@ class ApisController < ApplicationController
         value = trigger.value
         condition = trigger.condition
 
-        if((condition == "Is Greater Than Or Equal To" && io_property_value_out.to_f >= value.to_f) ||
-              (condition == "Is Less Than" && io_property_value_out.to_f < value.to_f))
+        if((condition == "Is Greater Than Or Equal To" && io_property_value_out >= value) ||
+              (condition == "Is Less Than" && io_property_value_out < value))
         
           if (trigger.email != nil)
 
