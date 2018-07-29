@@ -21,14 +21,14 @@ class ApisController < ApplicationController
     require 'net/http'
 
     # wellformedURI = trigger.webhook_url.gsub(' ','%20')
-    wellformedURI = "http://maker.ifttt.com/trigger/garden/with/key/mK46h__ZaBU1agxS79FZ0XXgKjqyrXPVllTyijE_gfM"
+    wellformedURI = "https://maker.ifttt.com/trigger/garden/with/key/mK46h__ZaBU1agxS79FZ0XXgKjqyrXPVllTyijE_gfM"
     
     puts wellformedURI
 
     uri = URI.parse(wellformedURI)
     req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
    #  req.body = {'Value1'=> "Trigger Name", 'Value2' => "output value", 'Value3' => 3}.to_json
-    res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+   res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') do |http|
       http.request(req)
     end
 
@@ -111,7 +111,7 @@ class ApisController < ApplicationController
             uri = URI.parse(wellformedURI)
             req = Net::HTTP::Get.new(uri, 'Content-Type' => 'application/json')
             req.body = {'Value1'=> trigger.name, 'Value2' => io_property_value_out, 'Value3' => trigger.value}.to_json
-            res = Net::HTTP.start(uri.hostname, uri.port :use_ssl => uri.scheme == 'https') do |http|
+            res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') do |http|
               http.request(req)
             end
 
