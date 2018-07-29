@@ -64,7 +64,7 @@ class ApisController < ApplicationController
         # Formula is 
         # rPresure = absPressure + altitude/8.3
         
-        io_property_value_out = (io_property_value_in.to_f + (sensor.altitude.to_f/8.3))
+        io_property_value_out = (io_property_value_in.to_f + (sensor.altitude.to_f/8.3)).round
 
       end
 
@@ -111,7 +111,7 @@ class ApisController < ApplicationController
             uri = URI.parse(wellformedURI)
             req = Net::HTTP::Get.new(uri, 'Content-Type' => 'application/json')
             req.body = {'Value1'=> trigger.name, 'Value2' => io_property_value_out, 'Value3' => trigger.value}.to_json
-            res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+            res = Net::HTTP.start(uri.hostname, uri.port :use_ssl => uri.scheme == 'https') do |http|
               http.request(req)
             end
 
