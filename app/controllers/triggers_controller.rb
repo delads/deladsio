@@ -1,5 +1,5 @@
 class TriggersController < ApplicationController
-	before_action :require_user
+	# before_action :require_user
 	
 	def index
 		@triggers = Trigger.all

@@ -14,7 +14,7 @@ class ChartsController < ApplicationController
                         remote location on the river bank of a small Irish village.
                         Demo accounts cannot edit existing sensors"
 
-      makerId = Maker.where(email: "demo@ecocube.io").first.id
+      makerId = Maker.where(email: "don@delads.com").first.id
     end
 
     @sensor = Sensor.find(params[:id])

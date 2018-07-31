@@ -8,16 +8,17 @@ class DashboardController < ApplicationController
   def index
 
     # Let's give people a demo account so they can see what it's all about
-    demo_account = Maker.where(email: "demo@ecocube.io").first
+    # demo_account = Maker.where(email: "demo@ecocube.io").first
 
-    if(current_user != nil)
-     @sensors = Sensor.where(maker_id: current_user)
-    else
-      @sensors = Sensor.where(maker_id: demo_account.id )
-      flash[:demo] = "Demo Dashboard. These are actual sensor readings in a 
-                      remote location on the river bank of a small Irish village.
-                      Demo accounts cannot edit existing sensors"
-    end
+      if(current_user != nil)     
+        cube = Cube.where(maker_id: current_user).first.id
+      else 
+        maker = Maker.find_by(email: "don@delads.com")
+        cube = Cube.where(maker_id: maker.id).first.id
+      end
+
+      redirect_to cube_path(cube)
+
   end
 
   def build_sensor_image_map
