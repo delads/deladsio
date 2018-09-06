@@ -6,7 +6,7 @@ class MapController < ApplicationController
 
 def index
     # Let's give people a demo account so they can see what it's all about
-    demo_account = Maker.where(email: "demo@ecocube.io").first
+    demo_account = Maker.where(email: "don@delads.com").first
 
     if(current_user != nil)
      @sensors = Sensor.where(maker_id: current_user)
@@ -14,9 +14,6 @@ def index
     else
       @sensors = Sensor.where(maker_id: demo_account.id )
       @cubes = Cube.where(maker_id: demo_account.id )
-      flash[:demo] = "Demo Dashboard. These are actual sensor readings in a 
-                      remote location on the river bank of a small Irish village.
-                      Demo accounts cannot edit existing sensors"
     end
 
 end

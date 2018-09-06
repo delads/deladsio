@@ -10,9 +10,7 @@ class ChartsController < ApplicationController
     makerId = current_user
 
     if(current_user == nil)
-      flash[:demo] = "Demo Dashboard. These are actual sensor readings in a 
-                        remote location on the river bank of a small Irish village.
-                        Demo accounts cannot edit existing sensors"
+      flash[:demo] = "Demo Dashboard. Please log in to edit existing sensors"
 
       makerId = Maker.where(email: "don@delads.com").first.id
     end
