@@ -160,7 +160,7 @@ class CubesController < ApplicationController
       end
 
     def cube_params
-        params.require(:cube).permit(:id, :name, :maker_id, :description, :sigfox_id, :board_id, :provisioned)
+        params.require(:cube).permit(:id, :name, :maker_id, :description, :sigfox_id, :board_id, :latitude, :longitude, :provisioned)
     end
 
     def require_admin_user

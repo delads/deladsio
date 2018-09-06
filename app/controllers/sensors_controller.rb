@@ -84,7 +84,7 @@ before_action :list_available_cubes
     
   
     def sensor_params
-      params.require(:sensor).permit(:name, :sensor_type, :altitude, :cube_id)
+      params.require(:sensor).permit(:name, :sensor_type, :altitude, :latitude, :longitude, :cube_id)
     end
     
     def set_sensor

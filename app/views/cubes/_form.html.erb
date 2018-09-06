@@ -19,6 +19,12 @@
         <%= f.label "Provisioned" %>
         <%= f.text_field :provisioned %>
 
+         <%= f.label "Latitude" %>
+        <%= f.text_field :latitude %>
+
+         <%= f.label "Longitude" %>
+        <%= f.text_field :longitude %>
+
       <%= f.submit(@cube.new_record? ? 'Create' : 'Update', class: "btn btn-success") %>
     <% end %>
   </div>

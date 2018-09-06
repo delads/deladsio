@@ -5,15 +5,13 @@
 <div class="container" style="height:100%">
 <div id="map" style="height:800px"></div>
 
-<% sensor = @sensors.where(sensor_type: 'Temperature').first %>
-
-
-
 <script>
-        var myLatlng = new google.maps.LatLng(53.198146, -6.179670);
+        
+        var mapCenter = new google.maps.LatLng(48.345989, 6.096948);
+
         var mapOptions = {
-        zoom: 13,
-        center: myLatlng,
+        zoom: 5,
+        center: mapCenter,
         mapTypeId: 'terrain'
         }
 
@@ -25,50 +23,65 @@
           // The origin for this image is (0, 0).
           origin: new google.maps.Point(0, 0),
           // The anchor for this image is the base of the flagpole at (0, 32).
-          anchor: new google.maps.Point(0, 70)
+          anchor: new google.maps.Point(55, 70)
         };
-        var contentString = 
-                ' <div class="col s4 m4">' +
-                ' <div class="card horizontal">' +
-                    ' <div class="card-image">' +
-                            ' <a href="/charts/<%= sensor.id %>">' +
-                                ' <img src="<%=raw @sensor_image[sensor.sensor_type] %>">' +
-                           '  </a>' +
-                    ' </div>' +
-                    ' <div class="card-stacked">' +
-                    ' <div class="card-content">' +
-                    ' <h5><%= sensor.property_value %> <%=raw @sensor_measure[sensor.sensor_type] %></h5>' +
-                    ' <br>' +
-                    ' <p><%= sensor.name %></p>' +
-                    ' </div>' +
-                    ' <div class="card-action">' +
-                    ' <% if (current_user != nil) %>' +
-                            ' <a href="/sensors/<%=raw sensor.id %>/edit">Edit</a>' +
-                    ' <% end %>' +
-                    ' <a href="/charts/<%= sensor.id %>">Graph</a>' +
-                    ' </div>' +
-                    ' </div>' +
-                ' </div>' +
-                ' </div>';
 
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString,
-          maxWidth: 200
-        });
+        <% @cubes.each do |cube| %>
 
-        var marker = new google.maps.Marker({
-            position: myLatlng,
-            title:"Kitchen Temperature",
-            label: {text: '<%= sensor.property_value %>', color: "white", style: "bold"},
-            icon: image
-        });
-        marker.addListener('click', function() {
-          infowindow.open(map, marker);
-        });
+            <% sensor = @sensors.where(cube_id: cube.id ).first %> 
 
-        // To add the marker to the map, call setMap();
-        marker.setMap(map);
+
+            var contentString = 
+                    ' <div class="col s4 m4">' +
+                    ' <div class="card horizontal">' +
+                        ' <div class="card-image">' +
+                                ' <a href="/charts/<%=sensor.id %>">' +
+                                    ' <img src="<%=raw @sensor_image[sensor.sensor_type] %>">' +
+                            '  </a>' +
+                        ' </div>' +
+                        ' <div class="card-stacked">' +
+                        ' <div class="card-content">' +
+                        ' <h5><%= sensor.property_value %> <%=raw @sensor_measure[sensor.sensor_type] %></h5>' +
+                        ' <br>' +
+                        ' <p><%= sensor.name %></p>' +
+                        ' </div>' +
+                        ' <div class="card-action">' +
+                        ' <% if (current_user != nil) %>' +
+                                ' <a href="/sensors/<%=raw sensor.id %>/edit">Edit</a>' +
+                        ' <% end %>' +
+                        ' <a href="/charts/<%= sensor.id %>">Graph</a>' +
+                        ' </div>' +
+                        ' </div>' +
+                    ' </div>' +
+                    ' </div>';
+
+            var infowindow = new google.maps.InfoWindow({
+            content: contentString,
+            maxWidth: 200
+            });
+            
+
+            var myLatlng = new google.maps.LatLng('<%= cube.latitude %>','<%= cube.longitude %>');
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                title: 'Title',
+                label: {text: '<%= sensor.property_value %>', color: "white", style: "bold"},
+                icon: image,
+                info: contentString
+            });
+
+            google.maps.event.addListener( marker, 'click', function() {
+                infowindow.setContent( this.info );
+                infowindow.open( map, this );
+            });
+
+            // To add the marker to the map, call setMap();
+            marker.setMap(map);
+
+        <% end %>
+
     </script>
+
 
 
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_09_202742) do
+ActiveRecord::Schema.define(version: 2018_09_03_213702) do
 
   create_table "cubes", force: :cascade do |t|
     t.string "name"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 2018_07_09_202742) do
     t.string "sigfox_id"
     t.string "maker_id"
     t.boolean "provisioned"
+    t.float "latitude"
+    t.float "longitude"
   end
 
   create_table "makers", force: :cascade do |t|

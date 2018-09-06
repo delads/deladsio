@@ -10,8 +10,10 @@ def index
 
     if(current_user != nil)
      @sensors = Sensor.where(maker_id: current_user)
+     @cubes = Cube.where(maker_id: current_user)
     else
       @sensors = Sensor.where(maker_id: demo_account.id )
+      @cubes = Cube.where(maker_id: demo_account.id )
       flash[:demo] = "Demo Dashboard. These are actual sensor readings in a 
                       remote location on the river bank of a small Irish village.
                       Demo accounts cannot edit existing sensors"
