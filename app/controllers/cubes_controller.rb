@@ -10,6 +10,10 @@ class CubesController < ApplicationController
         @sensors = Sensor.all
         @makers = Maker.all
 
+        if(current_user == nil)     
+            flash[:demo] = "Please log in to edit existing sensors"
+        end
+
     end
 
     def new

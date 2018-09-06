@@ -15,6 +15,7 @@ class DashboardController < ApplicationController
       else 
         maker = Maker.find_by(email: "don@delads.com")
         cube = Cube.where(maker_id: maker.id).first.id
+        
       end
 
       redirect_to cube_path(cube)
