@@ -28,28 +28,28 @@
 
         <% @cubes.each do |cube| %>
 
-            <% sensor = @sensors.where(cube_id: cube.id ).first %> 
+            <% firstSensor = @sensors.where(cube_id: cube.id ).first %> 
 
             /*
             var contentString = 
                     ' <div class="col s4 m4">' +
                     ' <div class="card horizontal">' +
                         ' <div class="card-image">' +
-                                ' <a href="/charts/<%=sensor.id %>">' +
-                                    ' <img src="<%=raw @sensor_image[sensor.sensor_type] %>">' +
+                                ' <a href="/charts/<%=firstSensor.id %>">' +
+                                    ' <img src="<%=raw @sensor_image[firstSensor.sensor_type] %>">' +
                             '  </a>' +
                         ' </div>' +
                         ' <div class="card-stacked">' +
                         ' <div class="card-content">' +
-                        ' <h5><%= sensor.property_value %> <%=raw @sensor_measure[sensor.sensor_type] %></h5>' +
+                        ' <h5><%= firstSensor.property_value %> <%=raw @sensor_measure[firstSensor.sensor_type] %></h5>' +
                         ' <br>' +
-                        ' <p><%= sensor.name %></p>' +
+                        ' <p><%= firstSensor.name %></p>' +
                         ' </div>' +
                         ' <div class="card-action">' +
                         ' <% if (current_user != nil) %>' +
-                                ' <a href="/sensors/<%=raw sensor.id %>/edit">Edit</a>' +
+                                ' <a href="/sensors/<%=raw firstSensor.id %>/edit">Edit</a>' +
                         ' <% end %>' +
-                        ' <a href="/charts/<%= sensor.id %>">Graph</a>' +
+                        ' <a href="/charts/<%= firstSensor.id %>">Graph</a>' +
                         ' </div>' +
                         ' </div>' +
                     ' </div>' +
@@ -66,7 +66,12 @@
                            ' <span class="card-title"><%= cube.name %></span>' +
                            ' </div>' +
                            ' <div class="card-content">' +
-                           ' <p></p>' +
+                           
+                           <% cubeSensors = @sensors.where(cube_id: cube.id ) %>
+                           <% cubeSensors.each do |sensor| %>
+                            '<p> <%= sensor.name %> : <%= sensor.property_value %> <%=raw @sensor_measure[sensor.sensor_type] %></p> ' +
+                           <% end %>
+                           
                            ' </div>' +
                            ' <div class="card-action">' +
                            ' <a href="/cubes/<%= cube.id %>">Dashboard</a>' +
@@ -85,7 +90,7 @@
             var marker = new google.maps.Marker({
                 position: myLatlng,
                 title: 'Title',
-                label: {text: '<%= sensor.property_value %>', color: "white", style: "bold"},
+                label: {text: '<%= firstSensor.property_value %>', color: "white", style: "bold"},
                 icon: image,
                 info: contentString
             });
