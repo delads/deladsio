@@ -71,7 +71,8 @@
                            <% cubeSensors.each do |sensor| %>
                             '<p> <%= sensor.name %> : <%= sensor.property_value %> <%=raw @sensor_measure[sensor.sensor_type] %></p> ' +
                            <% end %>
-                           
+                           '<br>' +
+                           '<p> Updated <%= ((Time.now - firstSensor.updated_at)/(60*60)).to_i %> hours ago</p>' +
                            ' </div>' +
                            ' <div class="card-action">' +
                            ' <a href="/cubes/<%= cube.id %>">Dashboard</a>' +
