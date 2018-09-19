@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_19_121243) do
+ActiveRecord::Schema.define(version: 2018_09_19_121845) do
 
   create_table "cubes", force: :cascade do |t|
     t.string "name"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 2018_09_19_121243) do
     t.datetime "updated_at", null: false
     t.float "property_value"
     t.datetime "time"
+    t.integer "sensor_id"
   end
 
   create_table "triggers", force: :cascade do |t|
