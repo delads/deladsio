@@ -9,7 +9,7 @@
 
 
 <% if @sensors.empty? && current_user != nil %>
-      <div class="col m4 s12">
+      <div class="col m6 s12">
             <div class="card horizontal">
                   <div class="card-image">
                         <a href="/sensors/new %>">
@@ -36,31 +36,143 @@
 <% 
   image_location = "";
 
-
 %>
 
-      <div class="col m4 s12">
+      <div class="col m4  s12">
+            
             <div class="card horizontal">
                   <div class="card-image">
                         <a href="/charts/<%= sensor.id %>">
                               <img src="<%=raw @sensor_image[sensor.sensor_type] %>">
+
                         </a>
+                        <p style="font-size:75%; color:teal; padding-left:10px"><%= ((Time.now - sensor.updated_at)/(60*60)).to_i %> hours ago</p>
                   </div>
                   <div class="card-stacked">
-                  <div class="card-content">
-                  <h5><%= sensor.property_value %> <%=raw @sensor_measure[sensor.sensor_type] %></h5>
-                  <br>
-                  <p><%= sensor.name %></p>
-                  </div>
-                  <div class="card-action">
-                  <% if (current_user != nil) %>
-                        <a href="/sensors/<%=raw sensor.id %>/edit">Edit</a>
-                  <% end %>
-                  <a href="/charts/<%= sensor.id %>">Graph</a>
-                  </div>
+                        <div class="card-content">
+                              <h5><%= sensor.property_value %> <%=raw @sensor_measure[sensor.sensor_type] %></h5>
+                              <br>
+                              <p><%= sensor.name %></p>
+                        </div>
+                        <div class="card-action">
+                        <% if (current_user != nil) %>
+                              <a href="/sensors/<%=raw sensor.id %>/edit">Edit</a>
+                        <% end %>
+                        <a href="/charts/<%= sensor.id %>">Graph</a>
+                        </div>
                   </div>
             </div>
       </div>
+
+<% timeSeriesSensor = @timeseries.where(sensor_id: sensor) %>
+
+      <div class="col m8 s12">
+            <div class="card-panel">
+                  <div style="position: relative; height:400px; width:fill-parent">
+                              <canvas id="myChart<%=sensor.id%>"></canvas>
+
+                  </div>
+            </div>
+      </div>
+                                    
+      <script>
+      var ctx = document.getElementById("myChart<%=sensor.id%>").getContext('2d');
+      var io_data = [<% timeSeriesSensor.each do |sensor_reading| %><%= sensor_reading.property_value %>,<% end %> ];
+      var formatted_dates = [<% timeSeriesSensor.each do |sensor_reading| %>"<%= sensor_reading.time.localtime("+01:00").rfc2822 %>",<% end %> ];
+      var colors = ['#5ba2df', '#e2ac00', '#59b110'];
+
+
+      var data = {
+            labels: formatted_dates,
+
+            datasets: [{
+            spanGaps: false,
+            showLine: true,
+            pointStyle: 'circle',
+            label: '<%= sensor.name %>',
+            yAxisID: 'temperature',
+            fill: 'origin',
+            backgroundColor: "rgba(55, 0, 179, 0.3)",
+            data: io_data,
+            borderColor: "rgba(55, 0, 179, 0.5)",
+            borderWidth: 1,
+            }
+            ]
+            };
+
+
+            var options = {
+            layout: {
+            padding: {
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  plugins: {
+                  filler: {
+                        propagate: true
+                  }
+                  }
+            }
+            },
+            cubicInterpolationMode: 'default',
+            elements: {
+            point: {
+                  radius: 1,
+                  hoverRadius: 5,
+            }
+            },
+            hover: {
+            mode: 'index',
+            intersect: false
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            tooltips: {
+            enabled: true,
+            mode: 'index',
+            intersect: false,
+            yAlign: 'right',
+            },
+            scales: {
+            xAxes: [{
+                  type: 'time',
+                  time: {
+                  unit: 'day',
+                  displayFormats: {
+                  'minute': 'HH:mm',
+                  'hour': 'HH:mm',
+                  'day': 'dddd',
+                  'week': 'MMM DD',
+                  'month': 'MMM DD',
+                  }
+                  },
+                  display: true,
+
+                  gridLines: {
+                  drawOnChartArea: false,
+                  }
+            }],
+            yAxes: [{
+                  id: 'temperature',
+                  type: 'linear',
+                  position: 'left',
+            }, {
+                  id: 'pressure',
+                  type: 'linear',
+                  position: 'right',
+            }]
+            }
+            };  // end of options
+
+            var lineChart = new Chart(ctx, {
+                  type: 'line',
+                  data: data,
+                  responsive: true,
+                  options: options
+            });
+
+      </script>      
 
 <% end %>
 

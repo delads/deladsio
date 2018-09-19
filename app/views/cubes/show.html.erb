@@ -51,7 +51,9 @@
                         <a href="/charts/<%= sensor.id %>">
                               <img src="<%=raw @sensor_image[sensor.sensor_type] %>">
                         </a>
+                        <p style="font-size:75%; color:teal; padding-left:10px"><%= ((Time.now - sensor.updated_at)/(60*60)).to_i %> hours ago</p>
                   </div>
+                  
                   <div class="card-stacked">
                   <div class="card-content">
                   <h5><%= sensor.property_value %> <%=raw @sensor_measure[sensor.sensor_type] %></h5>

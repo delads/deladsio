@@ -10,15 +10,17 @@ class DashboardController < ApplicationController
     # Let's give people a demo account so they can see what it's all about
     # demo_account = Maker.where(email: "demo@ecocube.io").first
 
-      if(current_user != nil)     
-        cube = Cube.where(maker_id: current_user).first.id
-      else 
-        maker = Maker.find_by(email: "don@delads.com")
-        cube = Cube.where(maker_id: maker.id).first.id
-        
+      if(current_user == nil)   
+        flash[:danger] = "Please log in to access your dashboard"
+        redirect_to login_path
       end
 
-      redirect_to cube_path(cube)
+      @sensors = Sensor.where(maker_id: current_user)
+      @timeseries = TimeSeries.where(sensor_id: @sensors, created_at: 7.days.ago..1.second.ago)
+
+
+
+     # redirect_to cube_path(cube)
 
   end
 
