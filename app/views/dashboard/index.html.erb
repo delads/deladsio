@@ -64,7 +64,7 @@
             </div>
       </div>
 
-<% timeSeriesSensor = @timeseries.where(sensor_id: sensor.id) %>
+<% timeSeriesSensor = @timeseries.where(sensor_id: sensor.id.to_s) %>
 
       <div class="col m8 s12">
             <div class="card-panel">
