@@ -17,7 +17,7 @@ class DashboardController < ApplicationController
 
       @sensors = Sensor.where(maker_id: current_user)
       @timeseries = TimeSeries.where(sensor_id: @sensors, created_at: 7.days.ago..1.second.ago)
-
+      @hourlyAverage = TimeSeries.group(:sensor_id, "date_trunc('hour', created_at)").average('property_value')
 
 
      # redirect_to cube_path(cube)
