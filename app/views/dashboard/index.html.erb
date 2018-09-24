@@ -76,6 +76,8 @@
                   average_hash.store(key[1],@hourlyAverage[key])
             end
       end
+
+      average_hash.sort_by{|date,value| date}
 %>
 
 
