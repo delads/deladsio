@@ -77,7 +77,7 @@
             end
       end
 
-      average_hash.sort_by{|date,value| date}
+      average_hash = Hash[average_hash.sort_by{|date,value| date}]
 %>
 
 
