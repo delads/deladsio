@@ -6,13 +6,85 @@
 <div id="map" style="height:800px"></div>
 
 <script>
+
+<% latlong = Array.new %>
+
+<% @cubes.each do |cube|
+    latlong.push([cube.latitude, cube.longitude])
+ end %>
+
+<%
+    totallat = 0
+    totallong = 0
+    locations = 0
+
+    largestlat = 0
+    largestlong = 0
+
+    latlong.each {|coord| 
+        lat = coord[0]
+        long = coord[1]
+
+        totallat+= lat
+        totallong+= long
+        locations+= 1
+
+        if lat.abs > largestlat.abs
+            largestlat = lat
+        end
+
+        if long.abs > largestlong.abs
+            largestlong = long
+        end
+    }
+
+    averagelat = totallat/locations
+    averagelong = totallong/locations
+
+
+    biggestlatdistance = largestlat - averagelat
+    biggestlongdistance = largestlong - averagelong
+
+    zoom = 1
+    hit = false
+
+
+    if (biggestlatdistance.abs > 20 || biggestlongdistance.abs > 20)
+        zoom = 2
+
+    elsif (biggestlatdistance.abs > 10 || biggestlongdistance.abs > 10)
+        zoom = 3
         
-        var mapCenter = new google.maps.LatLng(48.345989, 6.096948);
+    elsif (biggestlatdistance.abs > 5 || biggestlongdistance.abs > 5)
+        zoom = 5
+        
+    elsif (biggestlatdistance.abs > 4 || biggestlongdistance.abs > 4)
+        zoom = 5
+        
+    elsif (biggestlatdistance.abs > 3 || biggestlongdistance.abs > 3)
+        zoom = 6
+        
+    elsif (biggestlatdistance.abs > 2 || biggestlongdistance.abs > 2)
+        zoom = 7
+    
+    elsif (biggestlatdistance.abs > 1 || biggestlongdistance.abs > 1)
+        zoom = 8
+    else
+        zoom = 17
+    end
+
+
+  %>     
+
+  <%= biggestlatdistance %>
+  <%= biggestlongdistance %>
+
+        var mapCenter = new google.maps.LatLng(<%= averagelat %>, <%= averagelong %>);
 
         var mapOptions = {
-        zoom: 4,
+        zoom: <%= zoom %>,
         center: mapCenter,
-        mapTypeId: 'terrain'
+        mapTypeId: 'satellite'
         }
 
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);
