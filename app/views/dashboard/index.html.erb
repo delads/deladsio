@@ -67,7 +67,9 @@
 
 <% timeSeriesSensor = @timeseries.where(sensor_id: sensor.id.to_s) %>
 
+<!--
 <% average_hash = Hash.new %>
+
 
 <%
       @hourlyAverage.each_key do |key|
@@ -79,6 +81,7 @@
 
       average_hash = Hash[average_hash.sort_by{|date,value| date}]
 %>
+-->
 
 
       <div class="col m8 s12">
@@ -92,17 +95,17 @@
                                     
       <script>
       var ctx = document.getElementById("myChart<%=sensor.id%>").getContext('2d');
-      // var io_data = [<% timeSeriesSensor.each do |sensor_reading| %><%= sensor_reading.property_value %>,<% end %> ];
-      // var formatted_dates = [<% timeSeriesSensor.each do |sensor_reading| %>"<%= sensor_reading.time.localtime("+01:00").rfc2822 %>",<% end %> ];
+       var io_data = [<% timeSeriesSensor.each do |sensor_reading| %><%= sensor_reading.property_value %>,<% end %> ];
+       var formatted_dates = [<% timeSeriesSensor.each do |sensor_reading| %>"<%= sensor_reading.time.localtime("+01:00").rfc2822 %>",<% end %> ];
       
-      var hourly_average_data = [<% average_hash.each do |average_reading| %><%= average_reading[1].truncate(2).to_s %>,<% end %> ];
-      var hourly_formatted_dates = [<% average_hash.each do |average_reading| %>"<%= average_reading[0].localtime("+01:00").rfc2822 %>",<% end %> ];
+     // var hourly_average_data = [<% average_hash.each do |average_reading| %><%= average_reading[1].truncate(2).to_s %>,<% end %> ];
+     // var hourly_formatted_dates = [<% average_hash.each do |average_reading| %>"<%= average_reading[0].localtime("+01:00").rfc2822 %>",<% end %> ];
 
       var colors = ['#5ba2df', '#e2ac00', '#59b110'];
 
 
       var data = {
-            labels: hourly_formatted_dates,
+            labels: formatted_dates,
 
             datasets: [{
             spanGaps: false,
@@ -112,7 +115,7 @@
             yAxisID: 'temperature',
             fill: 'origin',
             backgroundColor: "rgba(55, 0, 179, 0.3)",
-            data: hourly_average_data,
+            data: io_data,
             borderColor: "rgba(55, 0, 179, 0.5)",
             borderWidth: 1,
             }

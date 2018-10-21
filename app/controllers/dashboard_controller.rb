@@ -8,17 +8,27 @@ class DashboardController < ApplicationController
   def index
 
     # Let's give people a demo account so they can see what it's all about
-    # demo_account = Maker.where(email: "demo@ecocube.io").first
+   demo_account = Maker.where(email: "enniskerry@ecocube.io").first
 
-      if(current_user == nil)   
-        flash[:danger] = "Please log in to access your dashboard"
-        redirect_to login_path
+      if(current_user != nil)   
+
+        @sensors = Sensor.where(maker_id: current_user)
+        @timeseries = TimeSeries.where(sensor_id: @sensors, created_at: 7.days.ago..1.second.ago)
+        @cubes = Cube.where(maker_id: current_user)
+      else
+
+        # flash[:danger] = "Please log in to access your dashboard"
+        # redirect_to login_path
+
+        @sensors = Sensor.where(maker_id: demo_account.id )
+        @timeseries = TimeSeries.where(sensor_id: @sensors, created_at: 7.days.ago..1.second.ago)
+        @cubes = Cube.where(maker_id: demo_account.id )
+
       end
 
       @sensors = Sensor.where(maker_id: current_user)
       @timeseries = TimeSeries.where(sensor_id: @sensors, created_at: 7.days.ago..1.second.ago)
-      @hourlyAverage = TimeSeries.group(:sensor_id, "date_trunc('hour', created_at)").average('property_value')
-
+     # @hourlyAverage = TimeSeries.group(:sensor_id, "date_trunc('hour', created_at)").average('property_value')
 
      # redirect_to cube_path(cube)
 

@@ -6,7 +6,7 @@ class MapController < ApplicationController
 
 def index
     # Let's give people a demo account so they can see what it's all about
-    demo_account = Maker.where(email: "don@delads.com").first
+    demo_account = Maker.where(email: "enniskerry@ecocube.io").first
 
     if(current_user != nil)
      @sensors = Sensor.where(maker_id: current_user)

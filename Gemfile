@@ -13,7 +13,8 @@ gem 'mqtt'
 # Comment this gem
 # gem 'sqlite3'
 # and uncomment the following
- gem 'pg', '~> 0.20'
+ # gem 'pg', '~> 0.20'
+ gem 'pg'
  gem 'thin'
 
 
