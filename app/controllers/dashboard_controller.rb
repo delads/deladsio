@@ -13,7 +13,7 @@ class DashboardController < ApplicationController
       if(current_user != nil)   
 
         @sensors = Sensor.where(maker_id: current_user.id)
-        @timeseries = TimeSeries.where(sensor_id: @sensors, created_at: 7.days.ago..1.second.ago)
+        @timeseries = TimeSeries.where(sensor_id: @sensors, created_at: 7.days.ago..1.second.ago).order(:created_at)
         @cubes = Cube.where(maker_id: current_user.id)
       else
 
@@ -21,7 +21,7 @@ class DashboardController < ApplicationController
         # redirect_to login_path
 
         @sensors = Sensor.where(maker_id: demo_account )
-        @timeseries = TimeSeries.where(sensor_id: @sensors, created_at: 7.days.ago..1.second.ago)
+        @timeseries = TimeSeries.where(sensor_id: @sensors, created_at: 7.days.ago..1.second.ago).order(:created_at)
         @cubes = Cube.where(maker_id: demo_account.id )
 
       end
