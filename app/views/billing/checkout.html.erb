@@ -1,0 +1,129 @@
+<%= render 'shared/nav_top' %>
+<%= render 'shared/nav_side' %>
+<%= render 'shared/flash'%>
+
+<div class="container">
+    <div class="row" >
+        <div class="col m6 offset-m3">
+            <div class="card horizontal">
+                <div class="card-content">
+                    <span class="card-title"><%= @product%></span>
+                    <table><tr>
+                    <td>1  X  </td><td>monthly subscription (for 1st ecoCube)</td><td>€6</td>
+                    </tr><tr>
+
+                    <% if @number_of_cubes > 1%>
+                     <td><%= @number_of_extra_cubes %>  X  </td><td>monthly subscription (for extra ecoCubes)</td><td><%=@extra_subscriptions%></td>
+                     </tr><tr>
+                    <% end %>
+
+
+                    <td><%= @number_of_cubes %>  X  </td><td>EcoCube (4 sensors each)</td><td>€<%=@total_cube_price %></td>
+                    </tr><tr>
+                    <td>0  X  </td><td>Alerts (calculated @ end of month)</td><td>€0</td>
+                    </tr></table>
+                    
+                    <br><br>
+
+                    Change number of EcoCubes
+                    <form action="/checkout" method="get">
+                    <input type="hidden" name="product" value="hobby">
+                    <select name="amount">
+                        <option value="1" <% if @number_of_cubes == 1 %>selected <% end%> >1</option>
+                        <option value="2" <% if @number_of_cubes == 2 %>selected <% end%> >2</option>
+                        <option value="3" <% if @number_of_cubes == 3 %>selected <% end%> >3</option>
+                        <option value="4" <% if @number_of_cubes == 4 %>selected <% end%> >4</option>
+                        <option value="5" <% if @number_of_cubes == 5 %>selected <% end%> >5</option>
+                    </select>
+                        <button class="btn waves-effect waves-light">Change</button>
+                    </form>
+
+                    <br><br>
+
+                    <h6>Total payment now €<%=@total_price %></h6> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% if current_user != nil %>
+
+        <div class="row">
+            <div class="col m4 offset-m4 s12">
+
+             <div> Use card number 4000 0000 0000 3063 to force 3D secure </div>
+             <br>
+
+                <form class="PaymentForm">
+                <input name="cardholder-name" type="text" placeholder="Card holder name" />
+
+                <div class="CardElement">
+                    <!-- A Stripe Element is inserted here -->
+                </div>
+                <div class="PaymentForm-error">
+                    <!-- Used to display payment errors -->
+                </div><br>
+                <button class="PaymentForm-submit btn waves-effect waves-light">Submit payment</button>
+                </form>
+
+            </div>
+        </div>
+
+    <% end %>
+
+
+</div>
+
+
+<script>
+        $(document).ready(function(){
+    $('.sidenav').sidenav();
+    $('select').formSelect();
+  });
+
+   // Create a Stripe client.
+    const stripe = Stripe(
+    'pk_test_eEaAgIXINXVLsw2Tyonp8y9g',
+        {betas: ['payment_intent_beta_3']},
+    );
+
+    const elements = stripe.elements();
+    const cardElement = elements.create('card');
+    cardElement.mount('.CardElement');
+
+
+    const PAYMENT_INTENT_SECRET = "<%= @intent.client_secret %>";
+
+    document.querySelector('.PaymentForm').addEventListener('submit', ev => {
+    ev.preventDefault();
+    // Display a loading state and disable the submit button while Stripe.js handles
+    // completing the payment flow.
+    document.querySelector('.PaymentForm').classList.add('PaymentForm--loading');
+    document.querySelector('.PaymentForm-submit').disabled = true;
+    const cardholderName = document.querySelector('input[name="cardholder-name"]').value;
+
+    stripe
+        .handleCardPayment(PAYMENT_INTENT_SECRET, cardElement, {
+        source_data: {
+            owner: {
+            name: cardholderName
+            }
+        }
+        })
+        .then(({ paymentIntent, error }) => {
+        document.querySelector('.PaymentForm').classList.remove('PaymentForm--loading');
+
+        if (error) {
+            // Payment failed! Display the error and re-enable the submit button
+            // to allow the customer to try again.
+            document.querySelector('.PaymentForm-error').innerText = error.message;
+            document.querySelector('.PaymentForm-submit').disabled = false;
+        } else {
+            // Payment was successful! Display a success message or redirect to
+            // a success page.
+            window.location = "/success";
+        }
+        });
+    });
+
+</script>

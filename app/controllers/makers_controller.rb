@@ -182,8 +182,9 @@ class MakersController < ApplicationController
     end
 
     def set_stripe_env
-      Stripe.api_key = "sk_test_KNQxI3UCqUgrZIA5sK2cLvM9"
+      Stripe.api_key = ENV["STRIPE_API_KEY"]
     end
+
     
 
 end
