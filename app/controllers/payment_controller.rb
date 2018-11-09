@@ -4,9 +4,17 @@ class PaymentController < ApplicationController
     before_action :set_stripe_env
 
     def index
-        stripe_customer_id = @maker.stripe_customer_id
-        customer = Stripe::Customer.retrieve(stripe_customer_id)
-        @sources = customer.sources
+       
+
+    end
+
+    def chargechard
+
+        token = params[:stripeToken]
+
+
+        redirect_to success_path
+
 
     end
 
@@ -45,7 +53,7 @@ class PaymentController < ApplicationController
     end
 
     def set_stripe_env
-        Stripe.api_key = "sk_test_KNQxI3UCqUgrZIA5sK2cLvM9"
+        Stripe.api_key = ENV["STRIPE_API_KEY"]
     end
 
 
