@@ -44,7 +44,7 @@
             <div class="card horizontal">
                   <div class="card-image">
                         <a href="/charts/<%= sensor.id %>">
-                              <img src="<%=raw @sensor_image[sensor.sensor_type] %>">
+                              <img src="<%=asset_path @sensor_image[sensor.sensor_type] %>">
 
                         </a>
                         <p style="font-size:75%; color:teal; padding-left:10px"><%= ((Time.now - sensor.updated_at)/(60*60)).to_i %> hours ago</p>

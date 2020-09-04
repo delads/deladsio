@@ -110,13 +110,14 @@ before_action :list_available_cubes
 
     def build_sensor_image_map
       @sensor_image = Hash.new
-      @sensor_image["Temperature"] = "https://png.icons8.com/material/1600/thermometer-automation.png"
-      @sensor_image["Pressure"] = "https://png.icons8.com/material/1600/pressure.png"
-      @sensor_image["Humidity"] = "https://png.icons8.com/material/1600/moisture.png"
-      @sensor_image["WaterproofTemperature"] = "https://png.icons8.com/material/1600/thermometer-automation.png"
-      @sensor_image["SoilMoisture"] = "https://png.icons8.com/material/1600/watering-can.png"
-      @sensor_image["LightIntensity"] = "https://png.icons8.com/material/1600/do-not-expose-to-sunlight.png"
-      @sensor_image["AirQuality"] = "https://png.icons8.com/material/1600/air-quality.png"
+      @sensor_image["Temperature"] = "icons8-thermometer-automation-96.png"
+      @sensor_image["Pressure"] = "icons8-pressure-96.png"
+      @sensor_image["Humidity"] = "icons8-rain-96.png" 
+      @sensor_image["WaterproofTemperature"] = "icons8-thermometer-automation-96.png"
+      @sensor_image["SoilMoisture"] = "icons8-water-96.png"
+      @sensor_image["LightIntensity"] = "icons8-light-on-96.png"
+      @sensor_image["AirQuality"] = "icons8-air-quality-96.png"
+      @sensor_image["Power"] = "icons8-electrical-96.png"
     end
 
 
@@ -129,6 +130,7 @@ before_action :list_available_cubes
       @sensor_naming["SoilMoisture"] = "05"
       @sensor_naming["LightIntensity"] = "06"
       @sensor_naming["AirQuality"] = "07"
+      @sensor_naming["Power"] = "08"
 
     end
 
@@ -141,6 +143,7 @@ before_action :list_available_cubes
       @sensor_measure["SoilMoisture"] = ""
       @sensor_measure["LightIntensity"] = ""
       @sensor_measure["Air Quality"] = ""
+      @sensor_measure["Power"] = ""
   
     end
 end
