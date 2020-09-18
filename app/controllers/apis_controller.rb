@@ -19,7 +19,11 @@ class ApisController < ApplicationController
 
   def setttnsensorvalue
 
-    puts request.raw_post
+
+    message = JSON.parse(request.raw_post);
+    payload = message.payload_fields.payload
+
+    puts "====== " + payload + "=========="
 
 
   end
