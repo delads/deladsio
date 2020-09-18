@@ -46,4 +46,6 @@ Rails.application.routes.draw do
   get '/api/createtimeseries' => "apis#createtimeseries"
   get '/api/testhttprequest' => "apis#testhttprequest"
 
+  post '/api/set_ttn_sensor_value' => "apis#setttnsensorvalue"
+
 end
