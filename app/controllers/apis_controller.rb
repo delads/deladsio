@@ -16,6 +16,18 @@ class ApisController < ApplicationController
     
   end
 
+
+  def setttnsensorvalue
+
+    puts request.raw_post
+
+
+  end
+
+
+
+
+
   def testhttprequest
 
     require 'net/http'
@@ -37,7 +49,7 @@ class ApisController < ApplicationController
 
   def setsigfoxsensorvalue
 
-    #example data = 001-01-19.5 in the format of custId-SensorId-PropertyValue
+    #example data = 001_01_19.5 in the format of custId-SensorId-PropertyValue
 
     hex_data = params[:data]
 
