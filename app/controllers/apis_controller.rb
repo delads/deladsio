@@ -21,7 +21,7 @@ class ApisController < ApplicationController
 
 
     message = JSON.parse(request.raw_post);
-    payload = message.payload_fields.payload
+    payload = message["payload_fields"]["payload"]
 
     puts "====== " + payload + "=========="
 
