@@ -47,5 +47,6 @@ Rails.application.routes.draw do
   get '/api/testhttprequest' => "apis#testhttprequest"
 
   post '/api/set_ttn_sensor_value' => "apis#setttnsensorvalue"
+  post '/api/set_ttn_node' => "apis#setttnnode"
 
 end
