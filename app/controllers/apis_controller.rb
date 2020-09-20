@@ -232,10 +232,12 @@ class ApisController < ApplicationController
     message = JSON.parse(request.raw_post);
     temperature = message["payload_fields"]["temperature"]
 
+    puts temperature
+
 
     # Let's hardcode for now
-    io_board_id = "007"
-    io_sensor_id = "001"
+    io_board_id = '007'
+    io_sensor_id = '01'
     io_property_value_in = temperature
     io_property_value_out = io_property_value_in.to_f
 
