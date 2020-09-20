@@ -230,16 +230,14 @@ class ApisController < ApplicationController
 
 
     message = JSON.parse(request.raw_post);
-    puts message
-
-    data = message["payload_fields"]["payload"]
+    temperature = message["payload_fields"]["temperature"]
 
     puts "====== " + data + "=========="
 
-    tokens = data.split("_")
-    io_board_id = tokens[0]
-    io_sensor_id = tokens[1]
-    io_property_value_in = tokens[2]
+    #Let's hardcode for now
+    io_board_id = "007"
+    io_sensor_id = "001"
+    io_property_value_in = temperature
     io_property_value_out = io_property_value_in.to_f
 
     sensors = Sensor.where(arduino_id: io_board_id + '-' + io_sensor_id)
