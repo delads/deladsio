@@ -57,11 +57,11 @@ class MakersController < ApplicationController
 
 
       #Let's create this maker as a customer object on Stripe
-      customer = Stripe::Customer.create({
-        email: @maker.email
-      })
+      # customer = Stripe::Customer.create({
+      #  email: @maker.email
+      #})
 
-      @maker.stripe_customer_id = customer.id
+      # @maker.stripe_customer_id = customer.id
 
       if @maker.save
         flash[:success] = "Your account has been created successfully"
