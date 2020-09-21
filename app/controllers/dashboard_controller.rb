@@ -42,6 +42,7 @@ class DashboardController < ApplicationController
     @sensor_image["LightIntensity"] = "icons8-light-on-96.png"
     @sensor_image["AirQuality"] = "icons8-air-quality-96.png"
     @sensor_image["Power"] = "icons8-electrical-96.png"
+    @sensor_image["Battery"] = "icons8-charging-battery-96.png"
 
   end
 
@@ -54,6 +55,7 @@ class DashboardController < ApplicationController
       @sensor_measure["SoilMoisture"] = ""
       @sensor_measure["LightIntensity"] = ""
       @sensor_measure["Air Quality"] = ""
+      @sensor_measure["Battery"] = ""
 
   end
 
