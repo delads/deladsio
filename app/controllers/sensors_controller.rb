@@ -132,7 +132,7 @@ before_action :list_available_cubes
       @sensor_naming["LightIntensity"] = "06"
       @sensor_naming["AirQuality"] = "07"
       @sensor_naming["Power"] = "08"
-      @sensor_measure["Battery"] = "09"
+      @sensor_naming["Battery"] = "09"
 
     end
 
