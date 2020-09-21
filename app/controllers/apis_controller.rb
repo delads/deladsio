@@ -246,7 +246,7 @@ class ApisController < ApplicationController
     temp_sensor.property_value = temperature_f
     temp_sensor.save
     
-    light_sensors = Sensor.where(arduino_id: io_board_id + '-07')
+    light_sensors = Sensor.where(arduino_id: io_board_id + '-06')
     light_sensor = light_sensors.first
     light_sensor.property_value = light_f
     light_sensor.save
@@ -264,7 +264,7 @@ class ApisController < ApplicationController
     # time fall into the same timeslot
     rounded_down = time-time.sec-time.min%5*60
     TimeSeries.create(:sensor_id => '01', :property_value => temperature_f, :time => rounded_down);
-    TimeSeries.create(:sensor_id => '07', :property_value => light_f, :time => rounded_down);
+    TimeSeries.create(:sensor_id => '06', :property_value => light_f, :time => rounded_down);
     TimeSeries.create(:sensor_id => '09', :property_value => battery_f, :time => rounded_down);
 
 
