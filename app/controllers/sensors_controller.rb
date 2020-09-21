@@ -118,6 +118,7 @@ before_action :list_available_cubes
       @sensor_image["LightIntensity"] = "icons8-light-on-96.png"
       @sensor_image["AirQuality"] = "icons8-air-quality-96.png"
       @sensor_image["Power"] = "icons8-electrical-96.png"
+      @sensor_image["Battery"] = "icons8-charging-battery-96.png"
     end
 
 
@@ -131,6 +132,7 @@ before_action :list_available_cubes
       @sensor_naming["LightIntensity"] = "06"
       @sensor_naming["AirQuality"] = "07"
       @sensor_naming["Power"] = "08"
+      @sensor_measure["Battery"] = "09"
 
     end
 
@@ -144,6 +146,7 @@ before_action :list_available_cubes
       @sensor_measure["LightIntensity"] = ""
       @sensor_measure["Air Quality"] = ""
       @sensor_measure["Power"] = ""
+      @sensor_measure["Battery"] = ""
   
     end
 end
