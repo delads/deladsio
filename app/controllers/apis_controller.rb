@@ -235,20 +235,26 @@ class ApisController < ApplicationController
     temperature_f = temperature.to_f
     battery = message["payload_fields"]["battery"]
     battery_f = battery.to_f
+    light = message["payload_fields"]["light"]
+    light_f = light.to_f
 
 
 
     # Let's set the temperature sensor
     sensors = Sensor.where(arduino_id: io_board_id + '-01')
-    sensor = sensors.first
-    sensor.property_value = temperature_f
-    sensor.save
+    temp_sensor = sensors.first
+    temp_sensor.property_value = temperature_f
+    temp_sensor.save
+
+    sensors = Sensor.where(arduino_id: io_board_id + '-06')
+    light_sensor = sensors.first
+    light_sensor.property_value = light_f
+    light_sensor.save
 
     sensors = Sensor.where(arduino_id: io_board_id + '-09')
-    sensor = sensors.first
-    sensor.property_value = battery_f
-    sensor.save
-
+    battery_sensor = sensors.first
+    battery_sensor.property_value = battery_f
+    battery_sensor.save
 
 
     time = Time.now
@@ -256,7 +262,9 @@ class ApisController < ApplicationController
     # Let's round to the nearest/lowest 5 mins to all readings around the same
     # time fall into the same timeslot
     rounded_down = time-time.sec-time.min%5*60
-    TimeSeries.create(:sensor_id => sensor.id, :property_value => io_property_value_out, :time => rounded_down);
+    TimeSeries.create(:sensor_id => '01', :property_value => temperature_f, :time => rounded_down);
+    TimeSeries.create(:sensor_id => '06', :property_value => light_f, :time => rounded_down);
+    TimeSeries.create(:sensor_id => '09', :property_value => battery_f, :time => rounded_down);
 
 
 
