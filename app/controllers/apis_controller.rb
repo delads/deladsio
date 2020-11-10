@@ -233,12 +233,9 @@ class ApisController < ApplicationController
     message = JSON.parse(request.raw_post);
     temperature = message["payload_fields"]["temperature"]
     temperature_f = temperature.to_f
-    light = message["payload_fields"]["light"]
-    light_f = light.to_f
     battery = message["payload_fields"]["battery"]
     battery_f = battery.to_f
-    light = message["payload_fields"]["light"]
-    light_f = light.to_f
+
 
 
 
@@ -248,10 +245,6 @@ class ApisController < ApplicationController
     temp_sensor.property_value = temperature_f
     temp_sensor.save
     
-    light_sensors = Sensor.where(arduino_id: io_board_id + '-06')
-    light_sensor = light_sensors.first
-    light_sensor.property_value = light_f
-    light_sensor.save
 
     battery_sensors = Sensor.where(arduino_id: io_board_id + '-09')
     battery_sensor = battery_sensors.first
@@ -266,7 +259,6 @@ class ApisController < ApplicationController
     # time fall into the same timeslot
     rounded_down = time-time.sec-time.min%5*60
     TimeSeries.create(:sensor_id => temp_sensor.id, :property_value => temperature_f, :time => rounded_down);
-    TimeSeries.create(:sensor_id => light_sensor.id, :property_value => light_f, :time => rounded_down);
     TimeSeries.create(:sensor_id => battery_sensor.id, :property_value => battery_f, :time => rounded_down);
 
 
