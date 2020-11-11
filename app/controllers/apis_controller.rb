@@ -231,9 +231,9 @@ class ApisController < ApplicationController
     io_board_id = '007'
 
     message = JSON.parse(request.raw_post);
-    temperature = message["payload_fields"]["temperature"]
+    temperature = message["payload_fields"]["temp"]
     temperature_f = temperature.to_f
-    battery = message["payload_fields"]["battery"]
+    battery = message["payload_fields"]["batteryVoltage"]
     battery_f = battery.to_f
 
 
