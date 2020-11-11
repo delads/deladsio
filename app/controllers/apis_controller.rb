@@ -232,10 +232,9 @@ class ApisController < ApplicationController
 
     message = JSON.parse(request.raw_post);
     temperature = message["payload_fields"]["temp"]
-    temperature_f = temperature.to_f
+    temperature_f = temperature.to_f.round(1)
     battery = message["payload_fields"]["batteryVoltage"]
-    battery_f = battery.to_f
-
+    battery_f = battery.to_f.round(0)
 
 
 
