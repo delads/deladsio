@@ -110,10 +110,10 @@ before_action :list_available_cubes
 
     def build_sensor_image_map
       @sensor_image = Hash.new
-      @sensor_image["Temperature"] = "icons8-thermometer-automation-96.pn"
+      @sensor_image["Temperature"] = "icons8-thermometer-automation-96.png"
       @sensor_image["Pressure"] = "icons8-pressure-96.png"
       @sensor_image["Humidity"] = "icons8-rain-96.png" 
-      @sensor_image["WaterproofTemperature"] = "icons8-thermometer-automation-96.pn"
+      @sensor_image["WaterproofTemperature"] = "icons8-thermometer-automation-96.png"
       @sensor_image["SoilMoisture"] = "icons8-water-96.png"
       @sensor_image["LightIntensity"] = "icons8-light-on-96.png"
       @sensor_image["AirQuality"] = "icons8-air-quality-96.png"

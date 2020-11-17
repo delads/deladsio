@@ -231,24 +231,47 @@ class ApisController < ApplicationController
     io_board_id = '007'
 
     message = JSON.parse(request.raw_post);
+
+
     temperature = message["payload_fields"]["temp"]
-    temperature_f = temperature.to_f.round(1)
+
+    if(temperature != nil)
+      temperature_f = temperature.to_f.round(1)
+      # Let's set the temperature sensor
+      temp_sensors = Sensor.where(arduino_id: io_board_id + '-01')
+      temp_sensor = temp_sensors.first
+      temp_sensor.property_value = temperature_f
+      temp_sensor.save
+    end
+
+   
     battery = message["payload_fields"]["batteryVoltage"]
-    battery_f = battery.to_f.round(0)
+    if(battery != nil)
+      battery_f = battery.to_f.round(0)
+      battery_sensors = Sensor.where(arduino_id: io_board_id + '-09')
+      battery_sensor = battery_sensors.first
+      battery_sensor.property_value = battery_f
+      battery_sensor.save
+    end
 
 
+    externalTemp = messsage["payload_fields"]["TempC1"]
+    if(externalTemp != nil)
+      externalTemp_f = externalTemp.to_f.round(1)
+      extenal_temp_sensors = Sensor.where(arduino_id: io_board_id + '-04')
+      extenal_temp_sensor = extenal_temp_sensors.first
+      extenal_temp_sensor.property_value = externalTemp_f
+      extenal_temp_sensor.save
 
-    # Let's set the temperature sensor
-    temp_sensors = Sensor.where(arduino_id: io_board_id + '-01')
-    temp_sensor = temp_sensors.first
-    temp_sensor.property_value = temperature_f
-    temp_sensor.save
+    end
     
 
-    battery_sensors = Sensor.where(arduino_id: io_board_id + '-09')
-    battery_sensor = battery_sensors.first
-    battery_sensor.property_value = battery_f
-    battery_sensor.save
+
+
+
+    
+
+
 
 
 
