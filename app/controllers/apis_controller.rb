@@ -231,23 +231,24 @@ class ApisController < ApplicationController
     io_board_id = '007'
 
     message = JSON.parse(request.raw_post);
-    temperature = message["payload_fields"]["temperature"]
-    temperature_f = temperature.to_f
-    battery = message["payload_fields"]["battery"]
-    battery_f = battery.to_f
+    temperature = message["payload_fields"]["temp"]
+    temperature_f = temperature.to_f.round(1)
+    battery = message["payload_fields"]["batteryVoltage"]
+    battery_f = battery.to_f.round(0)
 
 
 
     # Let's set the temperature sensor
-    sensors = Sensor.where(arduino_id: io_board_id + '-01')
-    sensor = sensors.first
-    sensor.property_value = temperature_f
-    sensor.save
+    temp_sensors = Sensor.where(arduino_id: io_board_id + '-01')
+    temp_sensor = temp_sensors.first
+    temp_sensor.property_value = temperature_f
+    temp_sensor.save
+    
 
-    sensors = Sensor.where(arduino_id: io_board_id + '-09')
-    sensor = sensors.first
-    sensor.property_value = battery_f
-    sensor.save
+    battery_sensors = Sensor.where(arduino_id: io_board_id + '-09')
+    battery_sensor = battery_sensors.first
+    battery_sensor.property_value = battery_f
+    battery_sensor.save
 
 
 
@@ -256,7 +257,8 @@ class ApisController < ApplicationController
     # Let's round to the nearest/lowest 5 mins to all readings around the same
     # time fall into the same timeslot
     rounded_down = time-time.sec-time.min%5*60
-    TimeSeries.create(:sensor_id => sensor.id, :property_value => io_property_value_out, :time => rounded_down);
+    TimeSeries.create(:sensor_id => temp_sensor.id, :property_value => temperature_f, :time => rounded_down);
+    TimeSeries.create(:sensor_id => battery_sensor.id, :property_value => battery_f, :time => rounded_down);
 
 
 
