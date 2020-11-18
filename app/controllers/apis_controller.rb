@@ -255,7 +255,7 @@ class ApisController < ApplicationController
     end
 
 
-    externalTemp = messsage["payload_fields"]["TempC1"]
+    externalTemp = message["payload_fields"]["TempC1"]
     if(externalTemp != nil)
       externalTemp_f = externalTemp.to_f.round(1)
       extenal_temp_sensors = Sensor.where(arduino_id: io_board_id + '-04')
